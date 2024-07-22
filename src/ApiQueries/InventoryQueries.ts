@@ -1,26 +1,38 @@
+import { useQuery } from "@tanstack/react-query";
+
+const apiHost = import.meta.env.VITE_API_HOST;
+const inventoryEndpoint = "/inventory";
+
 const inventoryQueriesDevelopment = {
   getInventory: () => {
     return [
-      { name: "Blue whiteboard markers", quantity: 4 },
-      { name: "Orange whiteboard markers", quantity: 3 },
-      { name: "Purple whiteboard markers", quantity: 9 },
-      { name: "Green whiteboard markers", quantity: 67 },
-      { name: "Oatly", quantity: 2 },
+      { name: "Blåa whiteboardpennor", quantity: 4 },
+      { name: "Orangea whiteboardpennor", quantity: 3 },
+      { name: "Lila whiteboardpennor", quantity: 9 },
+      { name: "Gröna whiteboardpennor", quantity: 67 },
+      { name: "Gräslök", quantity: 2 },
     ];
   },
 };
 
-const inventoryQueries = {};
+const inventoryQueries = {
+  getInventory: async () => {
+    const url = `${apiHost}${inventoryEndpoint}`;
+
+    return fetch(url).then((response) => response.json());
+  },
+};
 
 const useInventoryData = () => {
-  if (import.meta.env.DEV) {
-    return {
-      isPending: false,
-      error: false,
-      data: inventoryQueriesDevelopment.getInventory(),
-    };
-  }
-  return { isPending: true, error: false, data: null };
+  const queryFunction =
+    import.meta.env.MODE == "development"
+      ? inventoryQueriesDevelopment.getInventory
+      : inventoryQueries.getInventory;
+
+  return useQuery({
+    queryKey: ["inventory"],
+    queryFn: queryFunction,
+  });
 };
 
 export default useInventoryData;
