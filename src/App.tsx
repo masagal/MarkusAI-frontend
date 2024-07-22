@@ -8,6 +8,7 @@ import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { routeTree } from "./routes/route";
 
 const router = createRouter({ routeTree });
+import Inventory from "./Inventory";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
       </SignedOut>
       <SignedIn>
         <UserButton />
+        <Inventory />
       </SignedIn>
     </>
   );
