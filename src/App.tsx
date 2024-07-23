@@ -15,13 +15,11 @@ function App() {
   return (
     <>
       <RouterProvider router={router} />
-      <h1 className="text-3xl underline">hello is this working? yes it is</h1>
       <SignedOut>
         <SignInButton />
       </SignedOut>
       <SignedIn>
         <UserButton />
-        <RequestsForm />
       </SignedIn>
     </>
   );
