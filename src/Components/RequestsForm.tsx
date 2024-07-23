@@ -2,7 +2,7 @@ import useProducts from "../ApiQueries/ProductQueries";
 import { useForm } from "@tanstack/react-form";
 
 const RequestsForm = () => {
-  const { isPending, error, data } = useProducts();
+  const products = useProducts();
 
   const form = useForm({
     defaultValues: {
@@ -22,6 +22,26 @@ const RequestsForm = () => {
       }}
     >
       <div>
+        <form.Field
+          name="product"
+          children={(field) => (
+            <select
+              name={field.name}
+              value={field.state.value}
+              onBlur={field.handleBlur}
+              onChange={(e) => field.handleChange(e.target.value)}
+            >
+              {products.isPending && <option>Loading . . .</option>}
+              {!products.isPending &&
+                products.data.length != 0 &&
+                products.data!.map((product) => (
+                  <option key={product.id} value={product.id}>
+                    {product.name}
+                  </option>
+                ))}
+            </select>
+          )}
+        />
         <form.Field
           name="productQuantity"
           children={(field) => (
