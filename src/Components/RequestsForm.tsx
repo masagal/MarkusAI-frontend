@@ -1,9 +1,10 @@
 import useProducts from "../ApiQueries/ProductQueries";
 import { useForm } from "@tanstack/react-form";
 import { useState } from "react";
+import useMutateRequests from "../ApiQueries/RequestsFormQueries";
 
 type Request = {
-  productId: number;
+  product: Product;
   productName: string;
   quantity: number;
 };
@@ -15,6 +16,7 @@ type Product = {
 
 const RequestsForm = () => {
   const products = useProducts();
+  const mutateRequests = useMutateRequests();
 
   const [requestsInProgress, setRequestsInProgress] = useState<Request[]>([]);
 
@@ -30,7 +32,7 @@ const RequestsForm = () => {
       setRequestsInProgress(
         requestsInProgress.concat([
           {
-            productId: p.id,
+            product: p,
             quantity: value.productQuantity,
             productName: p.name,
           },
@@ -40,15 +42,20 @@ const RequestsForm = () => {
     },
   });
 
+  const submitRequests = () => {
+    mutateRequests.mutateAsync(requestsInProgress);
+  };
+
   return (
     <>
       <div>
         {requestsInProgress.length > 0 &&
           requestsInProgress.map((req) => (
-            <p key={req.productId}>
-              {req.quantity} {req.productName} (id {req.productId})
+            <p key={req.product.id}>
+              {req.quantity} {req.productName} (id {req.product.id})
             </p>
           ))}
+        <button onClick={submitRequests}>Submit Requests</button>
       </div>
       <form
         onSubmit={(e) => {
