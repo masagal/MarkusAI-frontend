@@ -1,7 +1,12 @@
 import { createRootRoute, createRoute } from "@tanstack/react-router";
 import { Outlet, Link } from "@tanstack/react-router";
 import { Home } from "../Pages/Home";
-import { SignInButton, SignedIn, SignedOut } from "@clerk/clerk-react";
+import {
+  SignInButton,
+  SignedIn,
+  SignedOut,
+  UserButton,
+} from "@clerk/clerk-react";
 import { Inventory } from "../Pages/Inventory";
 import { Requests } from "../Pages/Requests";
 import { OrderStatus } from "../Pages/OrderStatus";
@@ -19,6 +24,7 @@ const route = createRootRoute({
               <Link to="/">Home</Link>
             </li>
             <SignedIn>
+              <UserButton></UserButton>
               <li>
                 <Link to="/chat">CHAT</Link>
               </li>
@@ -36,7 +42,7 @@ const route = createRootRoute({
               </li>
             </SignedIn>
             <SignedOut>
-              <SignInButton></SignInButton>
+              <SignInButton />
             </SignedOut>
             <li>
               <Link to="/about">About</Link>
