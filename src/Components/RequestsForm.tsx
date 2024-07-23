@@ -2,6 +2,7 @@ import useProducts from "../ApiQueries/ProductQueries";
 import { useForm } from "@tanstack/react-form";
 import { useState } from "react";
 import useMutateRequests from "../ApiQueries/RequestsFormQueries";
+import { toastSuccess, toastError } from "./toastUtils";
 
 type Request = {
   product: Product;
@@ -43,7 +44,15 @@ const RequestsForm = () => {
   });
 
   const submitRequests = () => {
-    mutateRequests.mutateAsync(requestsInProgress);
+    mutateRequests.mutateAsync(requestsInProgress).then(
+      () => {
+        toastSuccess("Request filed! Awaiting admin approval.");
+        setRequestsInProgress([]);
+      },
+      () => {
+        toastError("Something went wrong. Please try again in a minute.");
+      }
+    );
   };
 
   return (
