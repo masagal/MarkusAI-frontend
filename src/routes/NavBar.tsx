@@ -21,7 +21,7 @@ export const NavBar = () => {
   const navigate = useNavigate();
 
   const [open, setOpen] = useState(false);
-  const linkText = [
+  const signedInLinks = [
     { text: "Home", link: "/" },
     { text: "CHAT", link: "/chat" },
     { text: "Requests", link: "/requests" },
@@ -30,24 +30,54 @@ export const NavBar = () => {
     { text: "About", link: "/about" },
   ];
 
+  const signedOutLinks = [
+    { text: "Home", link: "/" },
+    { text: "About", link: "/about" },
+  ];
+
   const ToggleLeftMenu = (
     <Box sx={{ width: 250 }} onClick={() => setOpen(!open)}>
       <List>
-        {linkText.map((value, index) => (
+        {signedInLinks.map((value, index) => (
           <ListItem key={index}>
-            <ListItemButton>
-              <ListItemText
-                primary={value.text}
-                onClick={() => {
-                  navigate({ to: `/${value.link}` });
-                  console.log("hey");
-                }}
-              />
+            <ListItemButton
+              onClick={() => {
+                navigate({ to: `/${value.link}` });
+              }}
+            >
+              <ListItemText primary={value.text} />
             </ListItemButton>
           </ListItem>
         ))}
       </List>
     </Box>
+  );
+
+  const SignedOutMenu = (
+    <List sx={{ display: "flex" }}>
+      {signedOutLinks.map((value, index) => (
+        <ListItem key={index}>
+          <ListItemButton
+            onClick={() => {
+              navigate({ to: `/${value.link}` });
+            }}
+          >
+            <ListItemText primary={value.text} />
+          </ListItemButton>
+        </ListItem>
+      ))}
+
+      <SignInButton>
+        <ListItem>
+          <ListItemButton sx={{ textAlign: "center" }}>
+            <ListItemText
+              primary="Sign in"
+              primaryTypographyProps={{ noWrap: true }}
+            />
+          </ListItemButton>
+        </ListItem>
+      </SignInButton>
+    </List>
   );
 
   return (
@@ -62,9 +92,8 @@ export const NavBar = () => {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Office Supply
           </Typography>
-          <SignedOut>
-            <SignInButton />
-          </SignedOut>
+
+          <SignedOut>{SignedOutMenu}</SignedOut>
           <SignedIn>
             <Account />
             <Drawer open={open} onClose={() => setOpen(false)}>
