@@ -6,9 +6,10 @@ import {
 } from "@clerk/clerk-react";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { routeTree } from "./routes/route";
+import Inventory from "./Inventory";
+import RequestsForm from "./Components/RequestsForm";
 
 const router = createRouter({ routeTree });
-import Inventory from "./Inventory";
 
 function App() {
   return (
@@ -20,7 +21,7 @@ function App() {
       </SignedOut>
       <SignedIn>
         <UserButton />
-        <Inventory />
+        <RequestsForm />
       </SignedIn>
     </>
   );
