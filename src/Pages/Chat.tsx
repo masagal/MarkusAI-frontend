@@ -43,6 +43,11 @@ export const Chat = () => {
     <>
       <p>Chat</p>
       <div>
+        {messages.map((message) => (
+          <p key={`${message.sender}-${message.sentAt}-${message.contents}`}>
+            <strong>{message.sender}</strong>: {message.contents}
+          </p>
+        ))}
         <form
           onSubmit={(e) => {
             e.preventDefault();
