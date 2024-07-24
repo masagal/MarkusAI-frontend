@@ -12,13 +12,32 @@ export const Chat = () => {
   const [connectionEstablished, setConnectionEstablished] =
     useState<boolean>(false);
   const [messages, setMessages] = useState<Message[]>([]);
+  const [mostRecentMessage, setMostRecentMessage] = useState<Message>();
+
+  const addMessage = (msg) => {
+    setMessages(messages.concat([msg]));
+  };
+
+  if (mostRecentMessage && messages[messages.length - 1] != mostRecentMessage) {
+    addMessage(mostRecentMessage);
+  }
+
   useEffect(() => {
     const socket = new WebSocket("ws://localhost:8080/chat");
     socket.addEventListener("open", (event) => {
       console.log(event);
-      socket.send("Connection established! Hello!");
       setConnectionEstablished(true);
       setSocket(socket);
+    });
+
+    socket.addEventListener("message", (message) => {
+      console.log("got ", message);
+      const msg = {
+        sender: "the backend",
+        sentAt: String(Date.now()),
+        contents: message.data,
+      };
+      setMostRecentMessage(msg);
     });
   }, []);
 
@@ -27,15 +46,12 @@ export const Chat = () => {
     onSubmit: async ({ value }) => {
       console.log(value);
       socket?.send(value.chatInput);
-      setMessages(
-        messages.concat([
-          {
-            sender: "you",
-            sentAt: String(Date.now()),
-            contents: value.chatInput,
-          },
-        ])
-      );
+      const msg = {
+        sender: "you",
+        sentAt: String(Date.now()),
+        contents: value.chatInput,
+      };
+      setMostRecentMessage(msg);
     },
   });
 
@@ -48,27 +64,31 @@ export const Chat = () => {
             <strong>{message.sender}</strong>: {message.contents}
           </p>
         ))}
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            form.handleSubmit();
-          }}
-        >
-          <form.Field
-            name="chatInput"
-            children={(field) => (
-              <input
-                type="text"
-                name={field.name}
-                value={field.state.value}
-                onBlur={field.handleBlur}
-                onChange={(e) => field.handleChange(e.target.value)}
-              />
-            )}
-          />
-          <button type="submit">send</button>
-        </form>
+        {connectionEstablished ? (
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              form.handleSubmit().then(() => form.reset());
+            }}
+          >
+            <form.Field
+              name="chatInput"
+              children={(field) => (
+                <input
+                  type="text"
+                  name={field.name}
+                  value={field.state.value}
+                  onBlur={field.handleBlur}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                />
+              )}
+            />
+            <button type="submit">send</button>
+          </form>
+        ) : (
+          <p>loading . . .</p>
+        )}
       </div>
     </>
   );
