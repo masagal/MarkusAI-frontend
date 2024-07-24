@@ -11,12 +11,15 @@ type Message = {
 export const Chat = () => {
   // Destructure methods from useForm for form handling
   const { register, handleSubmit, reset } = useForm();
-  
+
   // State variables
   const [socket, setSocket] = useState<WebSocket | null>(null);
-  const [connectionEstablished, setConnectionEstablished] = useState<boolean>(false);
+  const [connectionEstablished, setConnectionEstablished] =
+    useState<boolean>(false);
   const [messages, setMessages] = useState<Message[]>([]);
-  const [mostRecentMessage, setMostRecentMessage] = useState<Message | null>(null);
+  const [mostRecentMessage, setMostRecentMessage] = useState<Message | null>(
+    null
+  );
 
   // Function to add a new message to the messages state
   const addMessage = (msg: Message) => {
@@ -33,7 +36,7 @@ export const Chat = () => {
   // useEffect to establish WebSocket connection and handle events
   useEffect(() => {
     const ws = new WebSocket("ws://localhost:8080/chat");
-    
+
     ws.onopen = (event) => {
       console.log("WebSocket connection established:", event);
       setConnectionEstablished(true);
@@ -43,7 +46,7 @@ export const Chat = () => {
     ws.onmessage = (message) => {
       console.log("Received message:", message);
       const msg = {
-        sender: "the backend",
+        sender: "Chat-GPT",
         sentAt: new Date().toISOString(),
         contents: message.data,
       };
@@ -72,7 +75,7 @@ export const Chat = () => {
       console.log("Sending message:", data.chatInput);
       socket.send(data.chatInput);
       const msg = {
-        sender: "you",
+        sender: "User",
         sentAt: new Date().toISOString(),
         contents: data.chatInput,
       };
