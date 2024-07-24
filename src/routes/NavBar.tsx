@@ -35,22 +35,27 @@ export const NavBar = () => {
     { text: "About", link: "/about" },
   ];
 
-  const ToggleLeftMenu = (
-    <Box sx={{ width: 250 }} onClick={() => setOpen(!open)}>
-      <List>
-        {signedInLinks.map((value, index) => (
-          <ListItem key={index}>
-            <ListItemButton
-              onClick={() => {
-                navigate({ to: `/${value.link}` });
-              }}
-            >
-              <ListItemText primary={value.text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-    </Box>
+  const SignedInMenu = (
+    <>
+      <Account />
+      <Drawer open={open} onClose={() => setOpen(false)}>
+        <Box sx={{ width: 250 }} onClick={() => setOpen(!open)}>
+          <List>
+            {signedInLinks.map((value, index) => (
+              <ListItem key={index}>
+                <ListItemButton
+                  onClick={() => {
+                    navigate({ to: `/${value.link}` });
+                  }}
+                >
+                  <ListItemText primary={value.text} />
+                </ListItemButton>
+              </ListItem>
+            ))}
+          </List>
+        </Box>
+      </Drawer>
+    </>
   );
 
   const SignedOutMenu = (
@@ -94,12 +99,7 @@ export const NavBar = () => {
           </Typography>
 
           <SignedOut>{SignedOutMenu}</SignedOut>
-          <SignedIn>
-            <Account />
-            <Drawer open={open} onClose={() => setOpen(false)}>
-              {ToggleLeftMenu}
-            </Drawer>
-          </SignedIn>
+          <SignedIn>{SignedInMenu}</SignedIn>
         </Toolbar>
       </AppBar>
 
