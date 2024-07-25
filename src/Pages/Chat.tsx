@@ -14,36 +14,6 @@ const developmentChats: Messsage[] = [
     contents:
       "Hey! Hope you are well. Let me know if you need any new whiteboard markers.",
   },
-  {
-    sender: "MarkusAI",
-    sentAt: 0,
-    contents:
-      "Hey! Hope you are well. Let me know if you need any new whiteboard markers.",
-  },
-  {
-    sender: "MarkusAI",
-    sentAt: 0,
-    contents:
-      "Hey! Hope you are well. Let me know if you need any new whiteboard markers.",
-  },
-  {
-    sender: "MarkusAI",
-    sentAt: 0,
-    contents:
-      "Hey! Hope you are well. Let me know if you need any new whiteboard markers.",
-  },
-  {
-    sender: "MarkusAI",
-    sentAt: 0,
-    contents:
-      "Hey! Hope you are well. Let me know if you need any new whiteboard markers.",
-  },
-  {
-    sender: "MarkusAI",
-    sentAt: 0,
-    contents:
-      "Hey! Hope you are well. Let me know if you need any new whiteboard markers.",
-  },
 ];
 
 export const Chat = () => {
