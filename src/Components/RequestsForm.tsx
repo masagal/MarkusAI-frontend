@@ -1,8 +1,9 @@
-import useProducts from "../ApiQueries/ProductQueries";
+import useProducts from "../ApiQueries/useProducts";
 import { useForm } from "@tanstack/react-form";
 import { useState } from "react";
 import useMutateRequests from "../ApiQueries/RequestsFormQueries";
 import { toastSuccess, toastError } from "./toastUtils";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 type Request = {
   product: Product;
@@ -16,6 +17,7 @@ type Product = {
 };
 
 const RequestsForm = () => {
+  const queryClient = useQueryClient();
   const products = useProducts();
   const mutateRequests = useMutateRequests();
 
@@ -48,12 +50,18 @@ const RequestsForm = () => {
       () => {
         toastSuccess("Request filed! Awaiting admin approval.");
         setRequestsInProgress([]);
+        queryClient.invalidateQueries({ queryKey: ["requests"] });
       },
       () => {
         toastError("Something went wrong. Please try again in a minute.");
       }
     );
   };
+
+  if (!products.isPending && products.error) {
+    toastError("Unable to fetch products!");
+    return <p>Unable to fetch products. Server down?</p>;
+  }
 
   return (
     <>
