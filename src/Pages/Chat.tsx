@@ -73,51 +73,57 @@ export const Chat = () => {
 
   return (
     <>
-      <p>Chat</p>
-      <div>
-        <div className="flex flex-col w-full">
-          {messages.map((message) => (
-            <ChatBubble msg={message} pending={false} />
-          ))}
-          {pendingMessage && (
-            <ChatBubble
-              msg={{ sender: "backend", sentAt: 0, contents: "" }}
-              pending={true}
-            />
+      <div className="max-w-5xl">
+        <p>Chat</p>
+        <div>
+          <div className="flex flex-col w-full">
+            {messages.map((message) => (
+              <ChatBubble msg={message} pending={false} />
+            ))}
+            {pendingMessage && (
+              <ChatBubble
+                msg={{ sender: "backend", sentAt: 0, contents: "" }}
+                pending={true}
+              />
+            )}
+          </div>
+          {connectionEstablished ? (
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                form.handleSubmit().then(() => form.reset());
+              }}
+            >
+              <Stack
+                className="w-full max-w-5xl fixed bottom-0 my-8 bg-white p-10 box-content"
+                direction="row"
+                spacing={2}
+              >
+                <div className="grow">
+                  <form.Field
+                    name="chatInput"
+                    children={(field) => (
+                      <TextField
+                        type="text"
+                        name={field.name}
+                        value={field.state.value}
+                        onBlur={field.handleBlur}
+                        onChange={(e) => field.handleChange(e.target.value)}
+                        className="w-full"
+                      />
+                    )}
+                  />
+                </div>
+                <Button classname="grow" type="submit" variant="contained">
+                  Send
+                </Button>
+              </Stack>
+            </form>
+          ) : (
+            <p>loading . . .</p>
           )}
         </div>
-        {connectionEstablished ? (
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              form.handleSubmit().then(() => form.reset());
-            }}
-          >
-            <Stack className="w-full my-8" direction="row" spacing={2}>
-              <div className="grow">
-                <form.Field
-                  name="chatInput"
-                  children={(field) => (
-                    <TextField
-                      type="text"
-                      name={field.name}
-                      value={field.state.value}
-                      onBlur={field.handleBlur}
-                      onChange={(e) => field.handleChange(e.target.value)}
-                      className="w-full"
-                    />
-                  )}
-                />
-              </div>
-              <Button classname="grow" type="submit" variant="contained">
-                Send
-              </Button>
-            </Stack>
-          </form>
-        ) : (
-          <p>loading . . .</p>
-        )}
       </div>
     </>
   );
