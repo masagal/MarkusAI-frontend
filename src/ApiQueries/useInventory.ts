@@ -21,6 +21,10 @@ const inventoryQueries = {
     const token = await getToken();
     const url = `${apiHost}${inventoryEndpoint}`;
     const headers = new Headers();
+    if (token == null) {
+      throw new Error("Inventory query received null token. Exiting");
+      return Promise.reject();
+    }
     headers.append("Authorization", `Bearer ${token}`);
 
     return fetch(url, { headers }).then((response) => response.json());
