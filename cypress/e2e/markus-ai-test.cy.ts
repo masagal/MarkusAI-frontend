@@ -1,6 +1,6 @@
 const testUser = Cypress.env("testing_user");
 
-describe("a logged in user", () => {
+describe("a logged in admin", () => {
   it("can access the menu", () => {
     cy.visit(`/`);
     cy.clerkLoaded();
@@ -29,7 +29,18 @@ describe("a logged in user", () => {
     cy.contains("Submit Requests").click();
 
     cy.contains("Request filed!");
+  });
 
-    cy.get("#request-list").contains("Post-it-lappar");
+  it("can approve requests", () => {});
+
+  it("can see the inventory", () => {
+    cy.visit("/inventory");
+    cy.clerkLoaded();
+    cy.clerkSignIn({
+      strategy: "email_code",
+      identifier: testUser,
+    });
+
+    cy.get(".inventoryCard");
   });
 });

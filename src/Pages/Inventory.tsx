@@ -1,5 +1,5 @@
 import { InventoryCard } from "../Components/InventoryCard";
-import useInventoryData from "../ApiQueries/InventoryQueries";
+import useInventoryData from "../ApiQueries/useInventory";
 import { Product } from "../utils/types";
 
 export const Inventory = () => {

@@ -3,7 +3,7 @@ import { Product } from "../utils/types";
 
 export const InventoryCard = ({ product }: { product: Product }) => {
   return (
-    <Card sx={{ width: 300 }}>
+    <Card className="inventoryCard" sx={{ width: 300 }}>
       <CardMedia
         sx={{ height: 140 }}
         image="src/assets/placeholder.png"

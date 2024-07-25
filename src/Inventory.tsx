@@ -1,4 +1,4 @@
-import useInventoryData from "./ApiQueries/InventoryQueries";
+import useInventoryData from "./ApiQueries/useInventory";
 
 const Inventory = () => {
   const { isPending, error, data } = useInventoryData();
