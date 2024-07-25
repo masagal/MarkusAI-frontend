@@ -1,7 +1,8 @@
 import { Typography } from "@mui/material";
 import { Message } from "../utils/types";
+import { Skeleton } from "@mui/material";
 
-const ChatBubble = ({ msg }: { msg: Message }) => {
+const ChatBubble = ({ msg, pending }: { msg: Message; pending: boolean }) => {
   const { sender, sentAt, contents } = msg;
   const key = `${sender}${sentAt}${contents}`;
   const isBackend = sender == "backend" || sender == "the backend";
@@ -14,7 +15,11 @@ const ChatBubble = ({ msg }: { msg: Message }) => {
       <Typography>
         <span className="text-white">{sender}</span>
         <div className="bg-slate-400 p-4">
-          <p key={key}>{contents}</p>
+          {pending ? (
+            <Skeleton variant="rectangular" width={210} />
+          ) : (
+            <p key={key}>{contents}</p>
+          )}
         </div>
       </Typography>
     </div>

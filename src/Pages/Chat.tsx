@@ -26,6 +26,7 @@ export const Chat = () => {
     useState<boolean>(false);
   const [messages, setMessages] = useState<Message[]>(developmentChats);
   const [mostRecentMessage, setMostRecentMessage] = useState<Message>();
+  const [pendingMessage, setPendingMessage] = useState<boolean>(false);
 
   const addMessage = (msg) => {
     setMessages(messages.concat([msg]));
@@ -50,6 +51,7 @@ export const Chat = () => {
         sentAt: String(Date.now()),
         contents: message.data,
       };
+      setPendingMessage(false);
       setMostRecentMessage(msg);
     });
   }, []);
@@ -64,6 +66,7 @@ export const Chat = () => {
         sentAt: String(Date.now()),
         contents: value.chatInput,
       };
+      setPendingMessage(true);
       setMostRecentMessage(msg);
     },
   });
@@ -74,8 +77,14 @@ export const Chat = () => {
       <div>
         <div className="flex flex-col w-full">
           {messages.map((message) => (
-            <ChatBubble msg={message} />
+            <ChatBubble msg={message} pending={false} />
           ))}
+          {pendingMessage && (
+            <ChatBubble
+              msg={{ sender: "backend", sentAt: 0, contents: "" }}
+              pending={true}
+            />
+          )}
         </div>
         {connectionEstablished ? (
           <form
