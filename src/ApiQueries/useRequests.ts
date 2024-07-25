@@ -1,16 +1,16 @@
 import { useAuth } from "@clerk/clerk-react";
+import { GetToken } from "@clerk/types";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
 const apiHost = "http://localhost:8080"; // Hardcoding the API host for local development
 const requestsEndpoint = "/requests";
 
-const getRequests = async () => {
+const getRequests = async (getToken: GetToken) => {
   const url = `${apiHost}${requestsEndpoint}`;
-  const auth = useAuth();
   try {
     const response = await axios.get(url, {
-      headers: { Authorization: `Bearer ${await auth.getToken()}` },
+      headers: { Authorization: `Bearer ${await getToken()}` },
     });
     return response.data;
   } catch (error) {
@@ -20,9 +20,10 @@ const getRequests = async () => {
 };
 
 const useRequests = () => {
+  const { getToken } = useAuth();
   return useQuery({
     queryKey: ["requests"],
-    queryFn: getRequests,
+    queryFn: () => getRequests(getToken),
   });
 };
 
