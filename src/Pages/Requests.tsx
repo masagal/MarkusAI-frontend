@@ -7,6 +7,7 @@ import { toastError, toastSuccess } from "../Components/toastUtils";
 import "react-toastify/dist/ReactToastify.css";
 import RequestsForm from "../Components/RequestsForm";
 import { useState } from "react";
+import IsAdmin from "../Components/IsAdmin";
 
 const apiHost = "http://localhost:8080"; // Hardcoding the API host for local development
 
@@ -71,18 +72,20 @@ export const Requests: React.FC = () => {
                     ))}
                   </ul>
                 </span>
-                <div className="flex space-x-2">
-                  {!request.approved && (
-                    <button
-                      onClick={() =>
-                        toggleApproval(request.id, request.isApproved)
-                      }
-                      className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-900"
-                    >
-                      {request.isApproved ? <FaTimes /> : <FaCheck />}
-                    </button>
-                  )}
-                </div>
+                <IsAdmin>
+                  <div className="flex space-x-2">
+                    {!request.approved && (
+                      <button
+                        onClick={() =>
+                          toggleApproval(request.id, request.isApproved)
+                        }
+                        className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-900"
+                      >
+                        {request.isApproved ? <FaTimes /> : <FaCheck />}
+                      </button>
+                    )}
+                  </div>
+                </IsAdmin>
               </div>
             ))
         )}
