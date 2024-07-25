@@ -7,6 +7,7 @@ import { Profile } from "../Pages/Profile";
 import { About } from "../Pages/About";
 import { Chat } from "../Pages/Chat";
 import { NavBar } from "./NavBar";
+import UserNotFoundError from "../Pages/UserNotFoundError";
 
 const route = createRootRoute({
   component: NavBar,
@@ -49,6 +50,12 @@ const chat = createRoute({
   component: Chat,
 });
 
+const errorUserNotFound = createRoute({
+  getParentRoute: () => route,
+  path: "/error/user-not-found",
+  component: UserNotFoundError,
+});
+
 export const routeTree = route.addChildren({
   home,
   inventory,
@@ -57,4 +64,5 @@ export const routeTree = route.addChildren({
   profile,
   about,
   chat,
+  errorUserNotFound,
 });
