@@ -55,6 +55,7 @@ export const Requests: React.FC = () => {
             ?.filter((request) => showArchived || !request.approved)
             .map((request) => (
               <div
+                id="request-list"
                 key={request.id}
                 className="flex justify-between items-center p-2 mb-2 bg-gray-100 rounded hover:bg-gray-200"
               >
