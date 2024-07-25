@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useForm } from "@tanstack/react-form";
-import { Button, TextField, Stack } from "@mui/material";
+import { Typography, Button, TextField, Stack } from "@mui/material";
 import ChatBubble from "../Components/ChatBubble";
 
 import { Message } from "../utils/types";
@@ -74,7 +74,9 @@ export const Chat = () => {
   return (
     <>
       <div className="max-w-5xl">
-        <p>Chat</p>
+        <Typography variant="h3" className="mb-8 text-slate-600">
+          Chat
+        </Typography>
         <div>
           <div className="flex flex-col w-full">
             {messages.map((message) => (
