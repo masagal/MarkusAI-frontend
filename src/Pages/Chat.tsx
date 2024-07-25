@@ -1,17 +1,30 @@
 import { useEffect, useState } from "react";
 import { useForm } from "@tanstack/react-form";
+import { Button, TextField } from "@mui/material";
+import ChatBubble from "../Components/ChatBubble";
 
-type Message = {
-  sender: string;
-  sentAt: string;
-  contents: string;
-};
+import { Message } from "../utils/types";
+
+const websocketUrl = import.meta.env.VITE_BACKEND_SOCKET_URL;
+
+const developmentChats: Messsage[] = [
+  {
+    sender: "dev",
+    sentAt: 0,
+    contents: "lorem ipsum dolor sit amet, contescepting elit",
+  },
+  {
+    sender: "backend",
+    sentAt: 0,
+    contents: "I'm sorry Dave, I can't do that.",
+  },
+];
 
 export const Chat = () => {
   const [socket, setSocket] = useState<WebSocket>();
   const [connectionEstablished, setConnectionEstablished] =
     useState<boolean>(false);
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<Message[]>(developmentChats);
   const [mostRecentMessage, setMostRecentMessage] = useState<Message>();
 
   const addMessage = (msg) => {
@@ -23,7 +36,7 @@ export const Chat = () => {
   }
 
   useEffect(() => {
-    const socket = new WebSocket("ws://localhost:8080/chat");
+    const socket = new WebSocket(websocketUrl);
     socket.addEventListener("open", (event) => {
       console.log(event);
       setConnectionEstablished(true);
@@ -59,11 +72,11 @@ export const Chat = () => {
     <>
       <p>Chat</p>
       <div>
-        {messages.map((message) => (
-          <p key={`${message.sender}-${message.sentAt}-${message.contents}`}>
-            <strong>{message.sender}</strong>: {message.contents}
-          </p>
-        ))}
+        <div className="flex flex-col w-full">
+          {messages.map((message) => (
+            <ChatBubble msg={message} />
+          ))}
+        </div>
         {connectionEstablished ? (
           <form
             onSubmit={(e) => {
@@ -72,19 +85,23 @@ export const Chat = () => {
               form.handleSubmit().then(() => form.reset());
             }}
           >
-            <form.Field
-              name="chatInput"
-              children={(field) => (
-                <input
-                  type="text"
-                  name={field.name}
-                  value={field.state.value}
-                  onBlur={field.handleBlur}
-                  onChange={(e) => field.handleChange(e.target.value)}
-                />
-              )}
-            />
-            <button type="submit">send</button>
+            <>
+              <form.Field
+                name="chatInput"
+                children={(field) => (
+                  <TextField
+                    type="text"
+                    name={field.name}
+                    value={field.state.value}
+                    onBlur={field.handleBlur}
+                    onChange={(e) => field.handleChange(e.target.value)}
+                  />
+                )}
+              />
+            </>
+            <Button type="submit" variant="contained">
+              Send
+            </Button>
           </form>
         ) : (
           <p>loading . . .</p>
