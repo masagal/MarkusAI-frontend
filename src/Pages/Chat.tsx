@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useForm } from "@tanstack/react-form";
-import { Button, TextField } from "@mui/material";
+import { Button, TextField, Stack } from "@mui/material";
 import ChatBubble from "../Components/ChatBubble";
 
 import { Message } from "../utils/types";
@@ -94,23 +94,26 @@ export const Chat = () => {
               form.handleSubmit().then(() => form.reset());
             }}
           >
-            <>
-              <form.Field
-                name="chatInput"
-                children={(field) => (
-                  <TextField
-                    type="text"
-                    name={field.name}
-                    value={field.state.value}
-                    onBlur={field.handleBlur}
-                    onChange={(e) => field.handleChange(e.target.value)}
-                  />
-                )}
-              />
-            </>
-            <Button type="submit" variant="contained">
-              Send
-            </Button>
+            <Stack className="w-full my-8" direction="row" spacing={2}>
+              <div className="grow">
+                <form.Field
+                  name="chatInput"
+                  children={(field) => (
+                    <TextField
+                      type="text"
+                      name={field.name}
+                      value={field.state.value}
+                      onBlur={field.handleBlur}
+                      onChange={(e) => field.handleChange(e.target.value)}
+                      className="w-full"
+                    />
+                  )}
+                />
+              </div>
+              <Button classname="grow" type="submit" variant="contained">
+                Send
+              </Button>
+            </Stack>
           </form>
         ) : (
           <p>loading . . .</p>
