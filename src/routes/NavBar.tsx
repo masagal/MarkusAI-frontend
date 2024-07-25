@@ -106,7 +106,7 @@ export const NavBar = () => {
       <AppBar position="static">
         <Toolbar>
           <SignedIn>
-            <IconButton onClick={() => setOpen(true)}>
+            <IconButton id="burger_menu" onClick={() => setOpen(true)}>
               <MenuIcon style={{ color: "#fff" }} />
             </IconButton>
           </SignedIn>
