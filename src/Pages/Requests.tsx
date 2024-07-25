@@ -91,7 +91,7 @@ export const Requests: React.FC = () => {
             ))
         )}
       </div>
-      <RequestsForm />
+      <RequestsForm refetch={refetch} />
     </>
   );
 };
