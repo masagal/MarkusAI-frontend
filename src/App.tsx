@@ -1,14 +1,24 @@
 import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { routeTree } from "./routes/route";
-import Inventory from "./Inventory";
-import RequestsForm from "./Components/RequestsForm";
+import { ThemeProvider } from "@emotion/react";
+import { createTheme } from "@mui/material";
 
 const router = createRouter({ routeTree });
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#113264",
+    },
+  },
+});
 
 function App() {
   return (
     <>
-      <RouterProvider router={router} />
+      <ThemeProvider theme={theme}>
+        <RouterProvider router={router} />
+      </ThemeProvider>
     </>
   );
 }
