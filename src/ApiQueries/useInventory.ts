@@ -1,3 +1,4 @@
+import { useAuth } from "@clerk/clerk-react";
 import { useQuery } from "@tanstack/react-query";
 
 const apiHost = import.meta.env.VITE_API_HOST;
@@ -16,14 +17,18 @@ const inventoryQueriesDevelopment = {
 };
 
 const inventoryQueries = {
-  getInventory: async () => {
+  getInventory: async (getToken) => {
+    const token = await getToken();
     const url = `${apiHost}${inventoryEndpoint}`;
+    const headers = new Headers();
+    headers.append("Authorization", `Bearer ${token}`);
 
-    return fetch(url).then((response) => response.json());
+    return fetch(url, { headers }).then((response) => response.json());
   },
 };
 
-const useInventoryData = () => {
+const useInventory = () => {
+  const auth = useAuth();
   const queryFunction =
     import.meta.env.MODE == "development"
       ? inventoryQueriesDevelopment.getInventory
@@ -31,8 +36,8 @@ const useInventoryData = () => {
 
   return useQuery({
     queryKey: ["inventory"],
-    queryFn: queryFunction,
+    queryFn: () => queryFunction(auth.getToken),
   });
 };
 
-export default useInventoryData;
+export default useInventory;
