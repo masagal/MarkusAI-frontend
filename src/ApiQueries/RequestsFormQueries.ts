@@ -1,4 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
+import { useAuth } from "@clerk/clerk-react";
 
 const apiHost = import.meta.env.VITE_API_HOST;
 const endpoint = "/requests";
@@ -8,12 +9,14 @@ const requestMutationDevelopment = async (mutationData) => {
   console.log("Mutation data was: ", mutationData);
 };
 
-const requestMutation = async (mutationData) => {
+const requestMutation = async (mutationData, getToken) => {
+  const token = await getToken();
   const url = `${apiHost}${endpoint}`;
   const opts = {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({ requests: mutationData, userId: "1" }),
   };
@@ -25,13 +28,15 @@ const requestMutation = async (mutationData) => {
 };
 
 const useMutateRequests = () => {
+  const auth = useAuth();
+
   const mutationFunction =
     import.meta.env.MODE == "development"
       ? requestMutationDevelopment
       : requestMutation;
 
   return useMutation({
-    mutationFn: mutationFunction,
+    mutationFn: (data) => mutationFunction(data, auth.getToken),
   });
 };
 
