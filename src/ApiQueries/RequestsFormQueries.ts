@@ -1,4 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
+import useUserData from "./useUserData";
+import { useAuth } from "@clerk/clerk-react";
+import { UserData } from "../utils/types";
 
 const apiHost = import.meta.env.VITE_API_HOST;
 const endpoint = "/requests";
@@ -8,14 +11,22 @@ const requestMutationDevelopment = async (mutationData) => {
   console.log("Mutation data was: ", mutationData);
 };
 
-const requestMutation = async (mutationData) => {
+const requestMutation = async (
+  mutationData: Request[],
+  userData: UserData,
+  getToken: () => Promise<string>
+) => {
+  const token = await getToken();
+
+  const headers = new Headers();
+  headers.append("Content-Type", "application/json");
+  headers.append("Authorization", `Bearer ${token}`);
+
   const url = `${apiHost}${endpoint}`;
   const opts = {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ requests: mutationData, userId: "1" }),
+    headers,
+    body: JSON.stringify({ requests: mutationData, userId: userData.id }),
   };
 
   return fetch(url, opts).then(
@@ -25,13 +36,16 @@ const requestMutation = async (mutationData) => {
 };
 
 const useMutateRequests = () => {
+  const userData = useUserData();
+  const auth = useAuth();
+
   const mutationFunction =
     import.meta.env.MODE == "development"
       ? requestMutationDevelopment
       : requestMutation;
 
   return useMutation({
-    mutationFn: mutationFunction,
+    mutationFn: (data) => mutationFunction(data, userData, auth.getToken),
   });
 };
 
