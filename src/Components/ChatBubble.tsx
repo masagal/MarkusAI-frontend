@@ -5,7 +5,7 @@ import { Skeleton } from "@mui/material";
 const ChatBubble = ({ msg, pending }: { msg: Message; pending: boolean }) => {
   const { sender, sentAt, contents } = msg;
   const key = `${sender}${sentAt}${contents}`;
-  const isBackend = sender == "backend" || sender == "the backend";
+  const isBackend = sender == "MarkusAI";
   return (
     <div
       className={`rounded-xl bg-slate-400 p-1 m-1 max-w-prose ${

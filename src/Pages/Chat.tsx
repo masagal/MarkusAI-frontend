@@ -9,14 +9,40 @@ const websocketUrl = import.meta.env.VITE_BACKEND_SOCKET_URL;
 
 const developmentChats: Messsage[] = [
   {
-    sender: "dev",
+    sender: "MarkusAI",
     sentAt: 0,
-    contents: "lorem ipsum dolor sit amet, contescepting elit",
+    contents:
+      "Hey! Hope you are well. Let me know if you need any new whiteboard markers.",
   },
   {
-    sender: "backend",
+    sender: "MarkusAI",
     sentAt: 0,
-    contents: "I'm sorry Dave, I can't do that.",
+    contents:
+      "Hey! Hope you are well. Let me know if you need any new whiteboard markers.",
+  },
+  {
+    sender: "MarkusAI",
+    sentAt: 0,
+    contents:
+      "Hey! Hope you are well. Let me know if you need any new whiteboard markers.",
+  },
+  {
+    sender: "MarkusAI",
+    sentAt: 0,
+    contents:
+      "Hey! Hope you are well. Let me know if you need any new whiteboard markers.",
+  },
+  {
+    sender: "MarkusAI",
+    sentAt: 0,
+    contents:
+      "Hey! Hope you are well. Let me know if you need any new whiteboard markers.",
+  },
+  {
+    sender: "MarkusAI",
+    sentAt: 0,
+    contents:
+      "Hey! Hope you are well. Let me know if you need any new whiteboard markers.",
   },
 ];
 
@@ -47,7 +73,7 @@ export const Chat = () => {
     socket.addEventListener("message", (message) => {
       console.log("got ", message);
       const msg = {
-        sender: "the backend",
+        sender: "MarkusAI",
         sentAt: String(Date.now()),
         contents: message.data,
       };
@@ -73,22 +99,22 @@ export const Chat = () => {
 
   return (
     <>
-      <div className="max-w-5xl">
+      <div className="max-w-5xl flex flex-col max-h-fit">
         <Typography variant="h3" className="mb-8 text-slate-600">
           Chat
         </Typography>
-        <div>
-          <div className="flex flex-col w-full">
-            {messages.map((message) => (
-              <ChatBubble msg={message} pending={false} />
-            ))}
-            {pendingMessage && (
-              <ChatBubble
-                msg={{ sender: "backend", sentAt: 0, contents: "" }}
-                pending={true}
-              />
-            )}
-          </div>
+        <div className="basis-3/6 flex flex-col w-full overflow-scroll grow">
+          {messages.map((message) => (
+            <ChatBubble msg={message} pending={false} />
+          ))}
+          {pendingMessage && (
+            <ChatBubble
+              msg={{ sender: "MarkusAI", sentAt: 0, contents: "" }}
+              pending={true}
+            />
+          )}
+        </div>
+        <div className="basis-10">
           {connectionEstablished ? (
             <form
               onSubmit={(e) => {
@@ -98,7 +124,7 @@ export const Chat = () => {
               }}
             >
               <Stack
-                className="w-full max-w-5xl fixed bottom-0 my-8 bg-white p-10 box-content"
+                className="w-full max-w-5xl my-8 bg-white p-10 box-content"
                 direction="row"
                 spacing={2}
               >
