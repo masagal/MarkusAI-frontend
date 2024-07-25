@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { useAuth } from "@clerk/clerk-react";
 
 const apiHost = import.meta.env.VITE_API_HOST;
 const productEndpoint = "/product";
@@ -14,10 +15,13 @@ const productQueriesDevelopment = {
 };
 
 const productQueries = {
-  getProducts: async () => {
+  getProducts: async (getToken) => {
+    const token = await getToken();
     const url = `${apiHost}${productEndpoint}`;
+    const headers = new Headers();
+    headers.append("Authorization", `Bearer ${token}`);
     console.log("getting " + url);
-    return fetch(url).then((response) => {
+    return fetch(url, { headers }).then((response) => {
       if (response.ok) return response.json();
       else throw new Error("Failed to fetch products");
     });
@@ -25,6 +29,8 @@ const productQueries = {
 };
 
 const useProducts = () => {
+  const auth = useAuth();
+
   const queryFunction =
     import.meta.env.MODE == "development"
       ? productQueriesDevelopment.getProducts
@@ -32,7 +38,7 @@ const useProducts = () => {
 
   return useQuery({
     queryKey: ["products"],
-    queryFn: queryFunction,
+    queryFn: () => queryFunction(auth.getToken),
   });
 };
 
