@@ -11,9 +11,16 @@ import {
   IconButton,
   Toolbar,
   Typography,
+  ListItemIcon,
 } from "@mui/material";
 import { useNavigate } from "@tanstack/react-router";
 import MenuIcon from "@mui/icons-material/Menu";
+import HomeIcon from "@mui/icons-material/Home";
+import InventoryIcon from "@mui/icons-material/Inventory";
+import InfoIcon from "@mui/icons-material/Info";
+import LocalShippingIcon from "@mui/icons-material/LocalShipping";
+import NoteAddIcon from "@mui/icons-material/NoteAdd";
+import { ChatGptIcon } from "../IconComponents/ChatGptIcon";
 import { Account } from "../Components/Account";
 import { SignedIn, SignedOut, SignInButton } from "@clerk/clerk-react";
 
@@ -48,6 +55,14 @@ export const NavBar = () => {
                     navigate({ to: `/${value.link}` });
                   }}
                 >
+                  <ListItemIcon>
+                    {index === 0 && <HomeIcon />}
+                    {index === 1 && <ChatGptIcon />}
+                    {index === 2 && <NoteAddIcon />}
+                    {index === 3 && <InventoryIcon />}
+                    {index === 4 && <LocalShippingIcon />}
+                    {index === 5 && <InfoIcon />}
+                  </ListItemIcon>
                   <ListItemText primary={value.text} />
                 </ListItemButton>
               </ListItem>
