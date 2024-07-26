@@ -8,3 +8,9 @@ export type UserData = {
   email: string;
   isAdmin: boolean;
 };
+
+export type Message = {
+  sender: string;
+  sentAt: string;
+  contents: string;
+};

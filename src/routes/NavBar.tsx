@@ -23,6 +23,7 @@ import NoteAddIcon from "@mui/icons-material/NoteAdd";
 import { ChatGptIcon } from "../IconComponents/ChatGptIcon";
 import { Account } from "../Components/Account";
 import { SignedIn, SignedOut, SignInButton } from "@clerk/clerk-react";
+import logo from "../assets/markusai-logo.svg";
 
 export const NavBar = () => {
   const navigate = useNavigate();
@@ -110,7 +111,7 @@ export const NavBar = () => {
             </IconButton>
           </SignedIn>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Office Supply
+            <img src={logo} className="max-h-12 my-4" />
           </Typography>
 
           <SignedOut>{SignedOutMenu}</SignedOut>
