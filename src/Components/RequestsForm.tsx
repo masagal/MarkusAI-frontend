@@ -3,7 +3,7 @@ import { useForm } from "@tanstack/react-form";
 import { useState } from "react";
 import { useMutateRequests } from "../ApiQueries/useRequests";
 import { toastSuccess, toastError } from "./toastUtils";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 
 type Request = {
   product: Product;
@@ -93,6 +93,7 @@ const RequestsForm = () => {
               >
                 {products.isPending && <option>Loading . . .</option>}
                 {!products.isSuccess &&
+                  products.data &&
                   products.data.length != 0 &&
                   products.data!.map((product) => (
                     <option key={product.id} value={product.id}>
