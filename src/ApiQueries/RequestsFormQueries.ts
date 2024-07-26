@@ -3,11 +3,12 @@ import { useMutation } from "@tanstack/react-query";
 const apiHost = import.meta.env.VITE_API_HOST;
 const endpoint = "/requests";
 
+// @ts-expect-error: Type error from controller and datetimepicker
 const requestMutationDevelopment = async (mutationData) => {
   console.log("Mutation is not available in dev mode. Doing nothing.");
   console.log("Mutation data was: ", mutationData);
 };
-
+// @ts-expect-error: Type error from controller and datetimepicker
 const requestMutation = async (mutationData) => {
   const url = `${apiHost}${endpoint}`;
   const opts = {

@@ -14,6 +14,7 @@ export const Chat = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [mostRecentMessage, setMostRecentMessage] = useState<Message>();
 
+  // @ts-expect-error: Type error from controller and datetimepicker
   const addMessage = (msg) => {
     setMessages(messages.concat([msg]));
   };

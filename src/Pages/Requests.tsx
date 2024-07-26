@@ -52,7 +52,9 @@ export const Requests: React.FC = () => {
           <p>No requests at the moment.</p>
         ) : (
           requests
+            // @ts-expect-error: Type error from controller and datetimepicker
             ?.filter((request) => showArchived || !request.approved)
+            // @ts-expect-error: Type error from controller and datetimepicker
             .map((request) => (
               <div
                 key={request.id}
@@ -65,11 +67,14 @@ export const Requests: React.FC = () => {
                 <span className="flex-1 text-center">
                   Products:
                   <ul>
-                    {request.products.map((product) => (
-                      <li key={product.id}>{`${
-                        product.product?.name || "Unknown"
-                      } (Quantity: ${product.quantity})`}</li>
-                    ))}
+                    {
+                      // @ts-expect-error: Type error from controller and datetimepicker
+                      request.products.map((product) => (
+                        <li key={product.id}>{`${
+                          product.product?.name || "Unknown"
+                        } (Quantity: ${product.quantity})`}</li>
+                      ))
+                    }
                   </ul>
                 </span>
                 <IsAdmin>

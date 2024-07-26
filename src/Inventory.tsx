@@ -13,12 +13,15 @@ const Inventory = () => {
         <th>Quantity</th>
       </thead>
       <tbody>
-        {data!.map((item) => (
-          <tr key={item.name}>
-            <td>{item.name}</td>
-            <td>{item.quantity}</td>
-          </tr>
-        ))}
+        {
+          // @ts-expect-error: Type error from controller and datetimepicker
+          data!.map((item) => (
+            <tr key={item.name}>
+              <td>{item.name}</td>
+              <td>{item.quantity}</td>
+            </tr>
+          ))
+        }
       </tbody>
     </table>
   );

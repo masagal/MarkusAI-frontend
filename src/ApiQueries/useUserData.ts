@@ -1,7 +1,6 @@
 import { useAuth } from "@clerk/clerk-react";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
-import { UserData } from "../utils/types";
 
 const useUserData = () => {
   const navigate = useNavigate();

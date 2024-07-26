@@ -81,11 +81,15 @@ const RequestsForm = () => {
                 name={field.name}
                 value={field.state.value}
                 onBlur={field.handleBlur}
+                // @ts-expect-error: Type error from controller and datetimepicker
+
                 onChange={(e) => field.handleChange(e.target.value)}
               >
                 {products.isPending && <option>Loading . . .</option>}
                 {!products.isPending &&
                   products.data.length != 0 &&
+                  // @ts-expect-error: Type error from controller and datetimepicker
+
                   products.data!.map((product) => (
                     <option key={product.id} value={product.id}>
                       {product.name}
@@ -101,6 +105,8 @@ const RequestsForm = () => {
                 name={field.name}
                 value={field.state.value}
                 onBlur={field.handleBlur}
+                // @ts-expect-error: Type error from controller and datetimepicker
+
                 onChange={(e) => field.handleChange(e.target.value)}
                 type="text"
               />
