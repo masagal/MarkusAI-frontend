@@ -1,3 +1,6 @@
+# Cypress screenshots
+cypress/screenshots/
+
 # Logs
 logs
 *.log
