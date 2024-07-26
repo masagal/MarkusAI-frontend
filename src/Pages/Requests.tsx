@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import useRequests from "../ApiQueries/useRequests";
+import { useRequests } from "../ApiQueries/useRequests";
 import { FaCheck, FaTimes } from "react-icons/fa";
 import { ToastContainer } from "react-toastify";
 import { toastError, toastSuccess } from "../Components/toastUtils";
