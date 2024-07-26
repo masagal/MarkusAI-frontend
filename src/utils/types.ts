@@ -4,6 +4,7 @@ export type Product = {
 };
 
 export type UserData = {
+  id: number;
   name: string;
   email: string;
   isAdmin: boolean;
