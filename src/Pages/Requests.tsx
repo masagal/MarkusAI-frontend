@@ -1,6 +1,5 @@
 import React from "react";
-import axios from "axios";
-import { useRequests } from "../ApiQueries/useRequests";
+import { useRequests, useApproveRequests } from "../ApiQueries/useRequests";
 import { FaCheck, FaTimes } from "react-icons/fa";
 import { ToastContainer } from "react-toastify";
 import { toastError, toastSuccess } from "../Components/toastUtils";
@@ -9,25 +8,21 @@ import RequestsForm from "../Components/RequestsForm";
 import { useState } from "react";
 import IsAdmin from "../Components/IsAdmin";
 
-const apiHost = "http://localhost:8080"; // Hardcoding the API host for local development
-
 export const Requests: React.FC = () => {
   const { data: requests, error, isLoading, refetch } = useRequests();
+  const approveRequests = useApproveRequests();
   const [showArchived, setShowArchived] = useState<boolean>(false);
 
-  const toggleApproval = async (id: number, isApproved: boolean) => {
-    try {
-      await axios.patch(`${apiHost}/requests`, {
-        requestId: id,
-        approve: !isApproved,
+  const toggleApproval = async (id: number, isApproved: boolean) =>
+    approveRequests(id, isApproved)
+      .then(() => {
+        toastSuccess("Request approval status updated successfully!");
+        refetch(); // Refresh the data after update
+      })
+      .catch((e: Error) => {
+        console.error("Failed to update approval status:", e);
+        toastError("Failed to update approval status.");
       });
-      toastSuccess("Request approval status updated successfully!");
-      refetch(); // Refresh the data after update
-    } catch (error) {
-      console.error("Failed to update approval status:", error);
-      toastError("Failed to update approval status.");
-    }
-  };
 
   if (isLoading) {
     return <div>Loading...</div>;

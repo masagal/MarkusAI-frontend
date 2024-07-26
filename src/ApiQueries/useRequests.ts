@@ -30,6 +30,15 @@ const useRequests = () => {
   });
 };
 
+const useApproveRequests = () => {
+  return (requestId: number, approve: boolean) => {
+    return axios.patch(`${apiHost}/requests`, {
+      requestId,
+      approve,
+    });
+  };
+};
+
 const requestMutationDevelopment = async (mutationData) => {
   console.log("Mutation is not available in dev mode. Doing nothing.");
   console.log("Mutation data was: ", mutationData);
@@ -73,4 +82,4 @@ const useMutateRequests = () => {
   });
 };
 
-export { useRequests, useMutateRequests };
+export { useRequests, useMutateRequests, useApproveRequests };
