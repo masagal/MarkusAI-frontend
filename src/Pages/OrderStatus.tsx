@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Typography, List, ListItem, ListItemText, Box, Paper, Container } from '@mui/material';
 
 export const OrderStatus = () => {
   const [orders] = useState([
     {
       id: 1,
-      user: { name: "Admin User" },
+      user: { name: "Admin User 1" },
       status: "APPROVED",
       approvedDate: new Date().toISOString(),
       request: {
@@ -13,6 +13,48 @@ export const OrderStatus = () => {
           {
             product: { name: "Blue Whiteboard Marker" },
             quantity: 5,
+          },
+        ],
+      },
+    },
+    {
+      id: 2,
+      user: { name: "Admin User 2" },
+      status: "APPROVED",
+      approvedDate: new Date().toISOString(),
+      request: {
+        products: [
+          {
+            product: { name: "Red Whiteboard Marker" },
+            quantity: 10,
+          },
+        ],
+      },
+    },
+    {
+      id: 3,
+      user: { name: "Admin User 3" },
+      status: "APPROVED",
+      approvedDate: new Date().toISOString(),
+      request: {
+        products: [
+          {
+            product: { name: "Green Whiteboard Marker" },
+            quantity: 3,
+          },
+        ],
+      },
+    },
+    {
+      id: 4,
+      user: { name: "Admin User 4" },
+      status: "APPROVED",
+      approvedDate: new Date().toISOString(),
+      request: {
+        products: [
+          {
+            product: { name: "Black Whiteboard Marker" },
+            quantity: 7,
           },
         ],
       },
@@ -29,12 +71,16 @@ export const OrderStatus = () => {
           {orders.map((order) => (
             <ListItem key={order.id} style={{ marginBottom: '1rem' }}>
               <Box
-                style={{
+                sx={{
                   border: '1px solid #ccc',
                   borderRadius: '8px',
                   padding: '1rem',
                   width: '100%',
                   backgroundColor: '#f9f9f9',
+                  transition: 'transform 0.3s',
+                  '&:hover': {
+                    transform: 'scale(1.03)',
+                  },
                 }}
               >
                 <ListItemText
