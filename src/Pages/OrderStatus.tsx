@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Typography, List, ListItem, ListItemText, Box, Paper, Container } from '@mui/material';
+import { Typography, List, ListItem, ListItemText, Box, Paper, Container, TextField } from '@mui/material';
 
 export const OrderStatus = () => {
   const [orders] = useState([
@@ -61,14 +61,38 @@ export const OrderStatus = () => {
     },
   ]);
 
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const filteredOrders = orders.filter(order => {
+    const approvedDateString = new Date(order.approvedDate).toLocaleDateString();
+    return (
+      order.user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      approvedDateString.includes(searchTerm) ||
+      order.request.products.some(product =>
+        product.product.name.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    );
+  });
+
   return (
     <Container maxWidth="md" style={{ marginTop: '2rem' }}>
       <Typography variant="h3" gutterBottom style={{ fontWeight: 'bold', color: '#2c3e50' }}>
         Order Status
       </Typography>
+      <TextField
+        label="Search Orders"
+        value={searchTerm}
+        onChange={handleSearchChange}
+        fullWidth
+        style={{ marginBottom: '1rem' }}
+      />
       <Paper elevation={4} style={{ padding: '2rem', borderRadius: '12px', backgroundColor: '#ecf0f1' }}>
         <List>
-          {orders.map((order) => (
+          {filteredOrders.map((order) => (
             <ListItem key={order.id} style={{ marginBottom: '1rem' }}>
               <Box
                 sx={{
