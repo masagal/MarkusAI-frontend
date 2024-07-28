@@ -63,10 +63,10 @@ export const OrderStatus = () => {
 
   return (
     <Container maxWidth="md" style={{ marginTop: '2rem' }}>
-      <Typography variant="h3" gutterBottom>
+      <Typography variant="h3" gutterBottom style={{ fontWeight: 'bold', color: '#2c3e50' }}>
         Order Status
       </Typography>
-      <Paper elevation={3} style={{ padding: '1rem' }}>
+      <Paper elevation={4} style={{ padding: '2rem', borderRadius: '12px', backgroundColor: '#ecf0f1' }}>
         <List>
           {orders.map((order) => (
             <ListItem key={order.id} style={{ marginBottom: '1rem' }}>
@@ -76,15 +76,18 @@ export const OrderStatus = () => {
                   borderRadius: '8px',
                   padding: '1rem',
                   width: '100%',
-                  backgroundColor: '#f9f9f9',
-                  transition: 'transform 0.3s',
+                  backgroundColor: '#ffffff',
+                  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                  transition: 'transform 0.3s, box-shadow 0.3s',
                   '&:hover': {
                     transform: 'scale(1.03)',
+                    boxShadow: '0 8px 16px rgba(0, 0, 0, 0.2)',
                   },
                 }}
               >
                 <ListItemText
                   primary={`Order for ${order.request.products.map(product => `${product.product.name} (Quantity: ${product.quantity})`).join(', ')}`}
+                  primaryTypographyProps={{ variant: 'h6', color: 'textPrimary' }}
                   secondary={
                     <>
                       <Typography component="span" variant="body2" color="textSecondary">
