@@ -33,11 +33,6 @@ export const Account = () => {
     navigate({ to: "/profile" });
   };
 
-  const goToMyRequests = () => {
-    setAnchor(null);
-    console.log("my requests");
-  };
-
   return (
     <>
       <Box>
@@ -54,7 +49,6 @@ export const Account = () => {
         onClick={handleClose}
       >
         <MenuItem onClick={goToProfile}>My Profile</MenuItem>
-        <MenuItem onClick={goToMyRequests}>My Requests</MenuItem>
         <MenuItem onClick={() => signOut({ redirectUrl: "/" })}>
           <ListItemIcon>
             <Logout fontSize="small" />

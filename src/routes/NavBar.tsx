@@ -1,105 +1,29 @@
 import { Outlet } from "@tanstack/react-router";
 import { useState } from "react";
-import {
-  Box,
-  Drawer,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
-  AppBar,
-  IconButton,
-  Toolbar,
-  Typography,
-  ListItemIcon,
-} from "@mui/material";
-import { useNavigate } from "@tanstack/react-router";
+import { AppBar, IconButton, Toolbar, Typography } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import HomeIcon from "@mui/icons-material/Home";
-import InventoryIcon from "@mui/icons-material/Inventory";
-import InfoIcon from "@mui/icons-material/Info";
-import LocalShippingIcon from "@mui/icons-material/LocalShipping";
-import NoteAddIcon from "@mui/icons-material/NoteAdd";
-import { ChatGptIcon } from "../IconComponents/ChatGptIcon";
-import { Account } from "../Components/Account";
-import { SignedIn, SignedOut, SignInButton } from "@clerk/clerk-react";
+import { SignedIn, SignedOut } from "@clerk/clerk-react";
 import logo from "../assets/markusai-logo.svg";
+import { SignedOutMenu } from "../Components/SignedOutMenu";
+import { SignedInMenu } from "../Components/SignedInMenu";
+import { Tab } from "@mui/material";
+import { TabList, TabContext } from "@mui/lab";
+import { useNavigate } from "@tanstack/react-router";
 
 export const NavBar = () => {
   const navigate = useNavigate();
 
   const [open, setOpen] = useState(false);
-  const signedInLinks = [
-    { text: "Home", link: "/" },
-    { text: "CHAT", link: "/chat" },
-    { text: "Requests", link: "/requests" },
-    { text: "Inventory", link: "/inventory" },
-    { text: "Order Status", link: "/order-status" },
-    { text: "About", link: "/about" },
-  ];
+  const [tabValue, setTabValue] = useState("1");
 
-  const signedOutLinks = [
-    { text: "Home", link: "/" },
-    { text: "About", link: "/about" },
-  ];
-
-  const SignedInMenu = (
-    <>
-      <Account />
-      <Drawer open={open} onClose={() => setOpen(false)}>
-        <Box sx={{ width: 250 }} onClick={() => setOpen(!open)}>
-          <List>
-            {signedInLinks.map((value, index) => (
-              <ListItem key={index}>
-                <ListItemButton
-                  onClick={() => {
-                    navigate({ to: `/${value.link}` });
-                  }}
-                >
-                  <ListItemIcon>
-                    {index === 0 && <HomeIcon />}
-                    {index === 1 && <ChatGptIcon />}
-                    {index === 2 && <NoteAddIcon />}
-                    {index === 3 && <InventoryIcon />}
-                    {index === 4 && <LocalShippingIcon />}
-                    {index === 5 && <InfoIcon />}
-                  </ListItemIcon>
-                  <ListItemText primary={value.text} />
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List>
-        </Box>
-      </Drawer>
-    </>
-  );
-
-  const SignedOutMenu = (
-    <List sx={{ display: "flex" }}>
-      {signedOutLinks.map((value, index) => (
-        <ListItem key={index}>
-          <ListItemButton
-            onClick={() => {
-              navigate({ to: `/${value.link}` });
-            }}
-          >
-            <ListItemText primary={value.text} />
-          </ListItemButton>
-        </ListItem>
-      ))}
-
-      <SignInButton>
-        <ListItem>
-          <ListItemButton sx={{ textAlign: "center" }}>
-            <ListItemText
-              primary="Sign in"
-              primaryTypographyProps={{ noWrap: true }}
-            />
-          </ListItemButton>
-        </ListItem>
-      </SignInButton>
-    </List>
-  );
+  const tabChange = (_event: React.SyntheticEvent, newValue: string) => {
+    setTabValue(newValue);
+    if (newValue == "1") {
+      navigate({ to: `/` });
+    } else if (newValue == "2") {
+      navigate({ to: `/about` });
+    }
+  };
 
   return (
     <>
@@ -114,10 +38,27 @@ export const NavBar = () => {
             <img src={logo} className="max-h-12 my-4" />
           </Typography>
 
-          <SignedOut>{SignedOutMenu}</SignedOut>
-          <SignedIn>{SignedInMenu}</SignedIn>
+          <SignedOut>
+            <SignedOutMenu />
+          </SignedOut>
+          <SignedIn>
+            <SignedInMenu open={open} setOpen={setOpen} />
+          </SignedIn>
         </Toolbar>
       </AppBar>
+
+      <SignedOut>
+        <TabContext value={tabValue}>
+          <TabList
+            onChange={tabChange}
+            variant="fullWidth"
+            className="sm:hidden"
+          >
+            <Tab label="Home" value="1"></Tab>
+            <Tab label="About" value="2"></Tab>
+          </TabList>
+        </TabContext>
+      </SignedOut>
 
       <main className="mt-10 ml-5">
         <Outlet />
