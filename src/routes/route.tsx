@@ -4,7 +4,6 @@ import { Inventory } from "../Pages/Inventory";
 import { Requests } from "../Pages/Requests";
 import { OrderStatus } from "../Pages/OrderStatus";
 import { Profile } from "../Pages/Profile";
-import { About } from "../Pages/About";
 import { Chat } from "../Pages/Chat";
 import { NavBar } from "./NavBar";
 import UserNotFoundError from "../Pages/UserNotFoundError";
@@ -39,11 +38,6 @@ const profile = createRoute({
   path: "/profile",
   component: Profile,
 });
-const about = createRoute({
-  getParentRoute: () => route,
-  path: "/about",
-  component: About,
-});
 const chat = createRoute({
   getParentRoute: () => route,
   path: "/chat",
@@ -62,7 +56,6 @@ export const routeTree = route.addChildren({
   requests,
   orderStatus,
   profile,
-  about,
   chat,
   errorUserNotFound,
 });
