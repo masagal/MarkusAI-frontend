@@ -1,86 +1,83 @@
-import { useState } from 'react';
-import { Typography, List, ListItem, ListItemText, Box, Paper, Container, TextField } from '@mui/material';
+import { useState } from "react";
+import {
+  Typography,
+  List,
+  ListItem,
+  ListItemText,
+  Box,
+  Paper,
+  Container,
+  TextField,
+  Button,
+} from "@mui/material";
+import { useOrders } from "../ApiQueries/useOrders";
+import { ToastContainer } from "react-toastify";
+import { toastError, toastSuccess } from "../Components/toastUtils";
+import { useAuth } from "@clerk/clerk-react";
+import { changeOrderStatus } from "../ApiQueries/useOrders";
+import { Order } from "../utils/types";
 
 export const OrderStatus = () => {
-  const [orders] = useState([
-    {
-      id: 1,
-      user: { name: "Admin User 1" },
-      status: "APPROVED",
-      approvedDate: new Date().toISOString(),
-      request: {
-        products: [
-          {
-            product: { name: "Blue Whiteboard Marker" },
-            quantity: 5,
-          },
-        ],
-      },
-    },
-    {
-      id: 2,
-      user: { name: "Admin User 2" },
-      status: "APPROVED",
-      approvedDate: new Date().toISOString(),
-      request: {
-        products: [
-          {
-            product: { name: "Red Whiteboard Marker" },
-            quantity: 10,
-          },
-        ],
-      },
-    },
-    {
-      id: 3,
-      user: { name: "Admin User 3" },
-      status: "APPROVED",
-      approvedDate: new Date().toISOString(),
-      request: {
-        products: [
-          {
-            product: { name: "Green Whiteboard Marker" },
-            quantity: 3,
-          },
-        ],
-      },
-    },
-    {
-      id: 4,
-      user: { name: "Admin User 4" },
-      status: "APPROVED",
-      approvedDate: new Date().toISOString(),
-      request: {
-        products: [
-          {
-            product: { name: "Black Whiteboard Marker" },
-            quantity: 7,
-          },
-        ],
-      },
-    },
-  ]);
+  const { data: orders, error, isLoading, refetch } = useOrders();
+  const { getToken } = useAuth();
 
   const [searchTerm, setSearchTerm] = useState("");
 
-  const handleSearchChange = (event) => {
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
   };
 
-  const filteredOrders = orders.filter(order => {
-    const approvedDateString = new Date(order.approvedDate).toLocaleDateString();
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    console.error("Error loading requests:", error);
+    return <div>Error loading orders</div>;
+  }
+
+  console.log("Fetched orders:", orders);
+
+  const filteredOrders = orders.filter((order: Order) => {
+    const approvedDateString = new Date(
+      order.approvedDate
+    ).toLocaleDateString();
     return (
-      order.user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      order.approvingAdminUser.name
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase()) ||
       approvedDateString.includes(searchTerm) ||
-      order.request.products.some(product =>
+      order.request.products.some((product) =>
         product.product.name.toLowerCase().includes(searchTerm.toLowerCase())
       )
     );
   });
 
+  const handleOrderStatusChange = async (
+    orderId: number,
+    orderStatus: string
+  ) => {
+    const token = await getToken();
+
+    changeOrderStatus(token, orderId, orderStatus)
+      .then(() => {
+        toastSuccess("Order status updated successfully!");
+        refetch(); // Refresh the data after update
+      })
+      .catch((e: Error) => {
+        console.error("Failed to update order status:", e);
+        toastError("Failed to update order status.");
+      });
+  };
+
   return (
-    <Container maxWidth="md" style={{ marginTop: '2rem' }}>
-      <Typography variant="h3" gutterBottom style={{ fontWeight: 'bold', color: '#2c3e50' }}>
+    <Container maxWidth="md" style={{ marginTop: "2rem" }}>
+      <ToastContainer />
+      <Typography
+        variant="h3"
+        gutterBottom
+        style={{ fontWeight: "bold", color: "#2c3e50" }}
+      >
         Order Status
       </Typography>
       <TextField
@@ -88,40 +85,74 @@ export const OrderStatus = () => {
         value={searchTerm}
         onChange={handleSearchChange}
         fullWidth
-        style={{ marginBottom: '1rem' }}
+        style={{ marginBottom: "1rem" }}
       />
-      <Paper elevation={4} style={{ padding: '2rem', borderRadius: '12px', backgroundColor: '#ecf0f1' }}>
+      <Paper
+        elevation={4}
+        style={{
+          padding: "2rem",
+          borderRadius: "12px",
+          backgroundColor: "#ecf0f1",
+        }}
+      >
         <List>
-          {filteredOrders.map((order) => (
-            <ListItem key={order.id} style={{ marginBottom: '1rem' }}>
+          {filteredOrders.map((order: Order) => (
+            <ListItem key={order.id} style={{ marginBottom: "1rem" }}>
               <Box
                 sx={{
-                  border: '1px solid #ccc',
-                  borderRadius: '8px',
-                  padding: '1rem',
-                  width: '100%',
-                  backgroundColor: '#ffffff',
-                  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-                  transition: 'transform 0.3s, box-shadow 0.3s',
-                  '&:hover': {
-                    transform: 'scale(1.03)',
-                    boxShadow: '0 8px 16px rgba(0, 0, 0, 0.2)',
+                  border: "1px solid #ccc",
+                  borderRadius: "8px",
+                  padding: "1rem",
+                  width: "100%",
+                  backgroundColor: "#ffffff",
+                  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+                  transition: "transform 0.3s, box-shadow 0.3s",
+                  "&:hover": {
+                    transform: "scale(1.03)",
+                    boxShadow: "0 8px 16px rgba(0, 0, 0, 0.2)",
                   },
                 }}
               >
                 <ListItemText
-                  primary={`Order for ${order.request.products.map(product => `${product.product.name} (Quantity: ${product.quantity})`).join(', ')}`}
-                  primaryTypographyProps={{ variant: 'h6', color: 'textPrimary' }}
+                  primary={`Order for ${order.request.products.map((product) => `${product.product.name} (Quantity: ${product.quantity})`).join(", ")}`}
+                  primaryTypographyProps={{
+                    variant: "h6",
+                    color: "textPrimary",
+                  }}
                   secondary={
                     <>
-                      <Typography component="span" variant="body2" color="textSecondary">
+                      <Typography
+                        component="span"
+                        variant="body2"
+                        color="textSecondary"
+                      >
                         Status: {order.status} <br />
-                        Approved by: {order.user.name} <br />
-                        Approved on: {new Date(order.approvedDate).toLocaleDateString()}
+                        Approved by: {order.approvingAdminUser.name} <br />
+                        Approved on:{" "}
+                        {new Date(order.approvedDate).toLocaleDateString()}
                       </Typography>
                     </>
                   }
                 />
+                {order.status == "PENDING" && (
+                  <>
+                    <Button
+                      onClick={() =>
+                        handleOrderStatusChange(order.id, "ARRIVED")
+                      }
+                    >
+                      Confirm Arrival
+                    </Button>
+                    <Button
+                      onClick={() =>
+                        handleOrderStatusChange(order.id, "CANCELLED")
+                      }
+                      color="error"
+                    >
+                      Cancel
+                    </Button>
+                  </>
+                )}
               </Box>
             </ListItem>
           ))}
