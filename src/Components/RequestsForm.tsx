@@ -3,7 +3,7 @@ import { useForm } from "@tanstack/react-form";
 import { useState } from "react";
 import { useMutateRequests } from "../ApiQueries/useRequests";
 import { toastSuccess, toastError } from "./toastUtils";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 
 type Request = {
   product: Product;
@@ -64,15 +64,20 @@ const RequestsForm = () => {
   }
 
   return (
-    <>
-      <div>
+    <div className="container mx-auto p-4 mt-8">
+      <div className="mb-4">
         {requestsInProgress.length > 0 &&
           requestsInProgress.map((req) => (
-            <p key={req.product.id}>
+            <p key={req.product.id} className="mb-2">
               {req.quantity} {req.productName} (id {req.product.id})
             </p>
           ))}
-        <button onClick={submitRequests}>Submit Requests</button>
+        <button
+          onClick={submitRequests}
+          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700"
+        >
+          Submit Requests
+        </button>
       </div>
       <form
         onSubmit={(e) => {
@@ -80,8 +85,12 @@ const RequestsForm = () => {
           e.stopPropagation();
           form.handleSubmit();
         }}
+        className="bg-white p-6 rounded shadow-md"
       >
-        <div>
+        <div className="mb-4">
+          <label className="block mb-2 font-bold" htmlFor="product">
+            Product
+          </label>
           <form.Field
             name="product"
             children={(field) => (
@@ -90,6 +99,7 @@ const RequestsForm = () => {
                 value={field.state.value}
                 onBlur={field.handleBlur}
                 onChange={(e) => field.handleChange(e.target.value)}
+                className="w-full p-2 border rounded"
               >
                 {products.isPending && <option>Loading . . .</option>}
                 {products.isSuccess && (
@@ -105,6 +115,11 @@ const RequestsForm = () => {
               </select>
             )}
           />
+        </div>
+        <div className="mb-4">
+          <label className="block mb-2 font-bold" htmlFor="productQuantity">
+            Quantity
+          </label>
           <form.Field
             name="productQuantity"
             children={(field) => (
@@ -114,13 +129,19 @@ const RequestsForm = () => {
                 onBlur={field.handleBlur}
                 onChange={(e) => field.handleChange(e.target.value)}
                 type="text"
+                className="w-full p-2 border rounded"
               />
             )}
           />
         </div>
-        <button type="submit">Submit</button>
+        <button
+          type="submit"
+          className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-700"
+        >
+          Finish Request
+        </button>
       </form>
-    </>
+    </div>
   );
 };
 
