@@ -24,6 +24,7 @@ import { ChatGptIcon } from "../IconComponents/ChatGptIcon";
 import { Account } from "../Components/Account";
 import { SignedIn, SignedOut, SignInButton } from "@clerk/clerk-react";
 import logo from "../assets/markusai-logo.svg";
+import { Footer } from "../Components/Footer";
 
 export const NavBar = () => {
   const navigate = useNavigate();
@@ -102,7 +103,7 @@ export const NavBar = () => {
   );
 
   return (
-    <>
+    <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
       <AppBar position="static">
         <Toolbar>
           <SignedIn>
@@ -119,9 +120,11 @@ export const NavBar = () => {
         </Toolbar>
       </AppBar>
 
-      <main className="mt-10 ml-5">
+      <Box component="main" sx={{ flexGrow: 1, mt: 10, ml: 5 }}>
         <Outlet />
-      </main>
-    </>
+      </Box>
+
+      <Footer />
+    </Box>
   );
 };
