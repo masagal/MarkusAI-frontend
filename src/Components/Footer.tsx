@@ -7,13 +7,13 @@ export const Footer = () => {
   return (
     <AppBar position="static" sx={{ top: 'auto', bottom: 0, mt: 'auto', backgroundColor: '#1976d2' }}>
       <Toolbar>
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
             <Avatar alt="Ludvig" src={ludvig} />
             <Avatar alt="Mathangi" src={mathangi} />
             <Avatar alt="Simon" src={simon} />
           </Box>
-          <Typography variant="body1" color="inherit" sx={{ ml: 2 }}>
+          <Typography variant="body1" color="inherit">
             MarkusAI &copy; {new Date().getFullYear()}
           </Typography>
         </Box>
