@@ -12,7 +12,7 @@ import simon from "../assets/footer-image-simon copy.jpeg";
 
 export const Footer = () => {
   return (
-    <AppBar className="sticky mt-20">
+    <AppBar className="sticky mt-16 lg:pl-72">
       <Toolbar>
         <Box
           sx={{

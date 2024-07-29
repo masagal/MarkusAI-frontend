@@ -68,9 +68,9 @@ export const NavBar = () => {
         <Box component="main" sx={{ p: 5 }} className="w-full">
           <Toolbar />
           <Outlet />
-          <Footer />
         </Box>
       </Box>
+      <Footer />
     </>
   );
 };
