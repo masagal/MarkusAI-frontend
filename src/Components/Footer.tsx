@@ -1,11 +1,18 @@
-import { AppBar, Toolbar, Typography, Box, Avatar } from "@mui/material";
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Box,
+  Avatar,
+  IconButton,
+} from "@mui/material";
 import ludvig from "../assets/footer-image-ludvig copy.png";
 import mathangi from "../assets/Footer-image-mathangi copy.jpeg";
 import simon from "../assets/footer-image-simon copy.jpeg";
 
 export const Footer = () => {
   return (
-    <AppBar className="sticky">
+    <AppBar className="sticky mt-20">
       <Toolbar>
         <Box
           sx={{
@@ -16,9 +23,21 @@ export const Footer = () => {
           }}
         >
           <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-            <Avatar alt="Ludvig" src={ludvig} />
-            <Avatar alt="Mathangi" src={mathangi} />
-            <Avatar alt="Simon" src={simon} />
+            <IconButton
+              onClick={() => window.open("https://github.com/Junotas")}
+            >
+              <Avatar alt="Ludvig" src={ludvig} />
+            </IconButton>
+            <IconButton
+              onClick={() => window.open("https://github.com/math121")}
+            >
+              <Avatar alt="Mathangi" src={mathangi} />
+            </IconButton>
+            <IconButton
+              onClick={() => window.open("https://github.com/sighmoan")}
+            >
+              <Avatar alt="Simon" src={simon} />
+            </IconButton>
           </Box>
           <Typography variant="body1" color="inherit">
             MarkusAI &copy; {new Date().getFullYear()}
