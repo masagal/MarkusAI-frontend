@@ -1,5 +1,6 @@
-import { useState } from 'react';
-import { Typography, List, ListItem, ListItemText, Box, Paper, Container, TextField } from '@mui/material';
+import { useState, ChangeEvent } from 'react';
+import { Typography, List, ListItem, ListItemText, Box, Paper, Container } from '@mui/material';
+import SearchBar from '../Components/SearchBar';
 
 export const OrderStatus = () => {
   const [orders] = useState([
@@ -63,7 +64,7 @@ export const OrderStatus = () => {
 
   const [searchTerm, setSearchTerm] = useState("");
 
-  const handleSearchChange = (event) => {
+  const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
   };
 
@@ -83,13 +84,7 @@ export const OrderStatus = () => {
       <Typography variant="h3" gutterBottom style={{ fontWeight: 'bold', color: '#2c3e50' }}>
         Order Status
       </Typography>
-      <TextField
-        label="Search Orders"
-        value={searchTerm}
-        onChange={handleSearchChange}
-        fullWidth
-        style={{ marginBottom: '1rem' }}
-      />
+      <SearchBar searchTerm={searchTerm} handleSearchChange={handleSearchChange} />
       <Paper elevation={4} style={{ padding: '2rem', borderRadius: '12px', backgroundColor: '#ecf0f1' }}>
         <List>
           {filteredOrders.map((order) => (
