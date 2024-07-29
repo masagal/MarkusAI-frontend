@@ -92,13 +92,16 @@ const RequestsForm = () => {
                 onChange={(e) => field.handleChange(e.target.value)}
               >
                 {products.isPending && <option>Loading . . .</option>}
-                {!products.isSuccess &&
-                  products.data.length != 0 &&
-                  products.data!.map((product) => (
-                    <option key={product.id} value={product.id}>
-                      {product.name}
-                    </option>
-                  ))}
+                {products.isSuccess && (
+                  <>
+                    {products.data.length != 0 &&
+                      products.data!.map((product) => (
+                        <option key={product.id} value={product.id}>
+                          {product.name}
+                        </option>
+                      ))}
+                  </>
+                )}
               </select>
             )}
           />
