@@ -36,7 +36,7 @@ const AboutContent = styled(motion.div)({
   maxWidth: "800px",
   width: "100%",
   marginTop: "20px",
-  marginBottom: "40px", // Added margin bottom to avoid touching the footer
+  marginBottom: "40px",
 });
 
 const TeamGrid = styled(Grid)({
@@ -47,6 +47,11 @@ const TeamGrid = styled(Grid)({
 const TeamCard = styled(Card)({
   maxWidth: 345,
   margin: "auto",
+  transition: "transform 0.3s, box-shadow 0.3s",
+  "&:hover": {
+    transform: "scale(1.05)",
+    boxShadow: "0 15px 40px rgba(0, 0, 0, 0.2)",
+  },
 });
 
 export const About = () => {
