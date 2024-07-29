@@ -7,9 +7,17 @@ import { Profile } from "../Pages/Profile";
 import { Chat } from "../Pages/Chat";
 import { NavBar } from "./NavBar";
 import UserNotFoundError from "../Pages/UserNotFoundError";
+import { Typography } from "@mui/material";
 
 const route = createRootRoute({
   component: NavBar,
+  notFoundComponent: () => {
+    return (
+      <Typography variant="h3" className="mb-8 text-slate-600 h-screen">
+        Page not found!
+      </Typography>
+    );
+  },
 });
 
 const home = createRoute({

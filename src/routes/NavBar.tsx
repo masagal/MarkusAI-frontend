@@ -65,7 +65,7 @@ export const NavBar = () => {
           </Drawer>
         </SignedIn>
 
-        <Box component="main" sx={{ p: 5 }} className="w-full">
+        <Box component="main" className="w-full overflow-hidden p-20">
           <Toolbar />
           <Outlet />
         </Box>
