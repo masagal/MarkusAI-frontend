@@ -10,10 +10,11 @@ const apiHost = import.meta.env.VITE_API_HOST;
 const requestsEndpoint = "/requests";
 
 const getRequests = async (getToken: GetToken) => {
+  const token = await getToken();
   const url = `${apiHost}${requestsEndpoint}`;
   try {
     const response = await axios.get(url, {
-      headers: { Authorization: `Bearer ${await getToken()}` },
+      headers: { Authorization: `Bearer ${token}` },
     });
     return response.data;
   } catch (error) {
