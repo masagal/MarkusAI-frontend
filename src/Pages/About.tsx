@@ -49,25 +49,28 @@ export const About = () => {
           gutterBottom
           className="text-blue-500 font-bold"
         >
-          About
+          About Markus.AI
         </Typography>
         <HoverPaper elevation={3}>
           <Typography variant="body1" color="textSecondary" paragraph>
-            Welcome to Masagal Inventory System. Our platform helps manage and
-            track your office supplies efficiently.
+            Welcome to Masagal Inventory System. Our platform is designed to revolutionize the way office supplies are managed, making the process faster, more efficient, and more user-friendly.
           </Typography>
           <Typography variant="body1" color="textSecondary" paragraph>
-            With MarkusAI, you can easily request new supplies, monitor
-            inventory levels, and ensure that your office never runs out of
-            essential items.
+            In many offices, managing inventory is a tedious task that involves multiple layers of approval and a lot of back-and-forth communication. This traditional method is slow and ineffective, leading to overstocking or running out of essential supplies.
           </Typography>
           <Typography variant="body1" color="textSecondary" paragraph>
-            Our goal is to streamline your inventory management process and save
-            you time and effort using cutting-edge technology like LLMs. Thank
-            you for choosing Masagal Inventory System!
+            Masagal Inventory System simplifies this process by allowing team members to request supplies directly through an easy-to-use interface. The admin team can quickly approve or deny these requests, and our system helps to avoid duplication by tracking current inventory levels and pending orders.
+          </Typography>
+          <Typography variant="body1" color="textSecondary" paragraph>
+            To make our tool as user-friendly as possible, we integrate natural language processing, allowing team members to request supplies using a conversational interface. Simply message Markus.AI on Slack to place a request, and our system will handle the rest.
+          </Typography>
+          <Typography variant="body1" color="textSecondary" paragraph>
+            Our goal is to streamline your inventory management process, saving you time and effort while ensuring your office never runs out of the supplies it needs. Thank you for choosing Masagal Inventory System to help manage your office supplies more effectively!
           </Typography>
         </HoverPaper>
       </AboutContent>
     </AboutContainer>
   );
 };
+
+export default About;
