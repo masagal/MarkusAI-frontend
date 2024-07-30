@@ -72,6 +72,7 @@ export const Requests: React.FC = () => {
           Toggle Show Archived
         </button>
         <SearchBar
+          label="Search Requests"
           searchTerm={searchTerm}
           handleSearchChange={handleSearchChange}
         />

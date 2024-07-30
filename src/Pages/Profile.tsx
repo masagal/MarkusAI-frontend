@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useUserData } from "../ApiQueries/useUserData";
 import IsAdmin from "../Components/IsAdmin";
 import {
@@ -14,12 +13,11 @@ import { ProfileLoading } from "../Components/ProfileLoading";
 
 export const Profile = () => {
   const { isPending, error, data: userData } = useUserData();
-  const [selectedImage, setSelectedImage] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const chosenFile = e.target.files;
     if (chosenFile != null) {
-      setSelectedImage(URL.createObjectURL(chosenFile[0]));
+      console.log(URL.createObjectURL(chosenFile[0]));
     }
   };
 
@@ -74,10 +72,15 @@ export const Profile = () => {
               </IconButton>
             }
           >
-            <Avatar
-              sx={{ width: 200, height: 200 }}
-              src={selectedImage}
-            ></Avatar>
+            {!isPending && !error && userData && (
+              <Avatar
+                sx={{ width: 200, height: 200 }}
+                src={userData.imageUrl}
+              ></Avatar>
+            )}
+            {(isPending || error) && (
+              <Avatar sx={{ width: 200, height: 200 }}></Avatar>
+            )}
           </Badge>
         </div>
         <Stack spacing={4} justifyContent="center">
@@ -91,6 +94,9 @@ export const Profile = () => {
           </Typography>
           <Typography variant="body1">
             <strong>Email:</strong> {userData.email}
+          </Typography>
+          <Typography variant="body1">
+            <strong>Phone:</strong> 0708-927 852
           </Typography>
         </Stack>
       </Stack>

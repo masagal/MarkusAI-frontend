@@ -36,6 +36,7 @@ export const Inventory = () => {
       </Typography>
       <div className="container mx-auto p-4">
         <SearchBar
+          label="Search Inventory"
           searchTerm={searchTerm}
           handleSearchChange={handleSearchChange}
         />

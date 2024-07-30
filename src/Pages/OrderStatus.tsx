@@ -89,6 +89,7 @@ export const OrderStatus = () => {
         Order Status
       </Typography>
       <SearchBar
+        label="Search Orders"
         searchTerm={searchTerm}
         handleSearchChange={handleSearchChange}
       />
