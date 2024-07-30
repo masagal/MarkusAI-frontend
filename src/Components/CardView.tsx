@@ -1,6 +1,13 @@
 import React from "react";
 import { FaCheck, FaTimes } from "react-icons/fa";
-import { Card, CardContent, Grid, Typography, IconButton, Box } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  Grid,
+  Typography,
+  IconButton,
+  Box,
+} from "@mui/material";
 import IsAdmin from "../Components/IsAdmin";
 import { Request } from "../utils/types";
 
@@ -10,7 +17,11 @@ interface CardViewProps {
   showArchived: boolean;
 }
 
-const CardView: React.FC<CardViewProps> = ({ requests, toggleApproval, showArchived }) => {
+const CardView: React.FC<CardViewProps> = ({
+  requests,
+  toggleApproval,
+  showArchived,
+}) => {
   return (
     <Grid container spacing={2}>
       {requests
@@ -30,7 +41,8 @@ const CardView: React.FC<CardViewProps> = ({ requests, toggleApproval, showArchi
                   <ul className="list-none p-0 m-0">
                     {request.products.map((product) => (
                       <li key={product.id}>
-                        {product.product?.name || "Unknown"} (Quantity: {product.quantity})
+                        {product.product?.name || "Unknown"} (Quantity:{" "}
+                        {product.quantity})
                       </li>
                     ))}
                   </ul>
@@ -39,13 +51,13 @@ const CardView: React.FC<CardViewProps> = ({ requests, toggleApproval, showArchi
                   {!request.approved && (
                     <Box display="flex" justifyContent="center" mt={2}>
                       <IconButton
-                        onClick={() => toggleApproval(request.id, request.approved)}
+                        onClick={() => toggleApproval(request.id, true)}
                         sx={{
-                          backgroundColor: 'primary.main',
-                          color: 'white',
-                          borderRadius: '14px',
-                          padding: '8px 16px',
-                          minWidth: '64px'
+                          backgroundColor: "primary.main",
+                          color: "white",
+                          borderRadius: "14px",
+                          padding: "8px 16px",
+                          minWidth: "64px",
                         }}
                       >
                         {request.approved ? <FaTimes /> : <FaCheck />}

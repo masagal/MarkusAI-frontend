@@ -31,6 +31,7 @@ export const Requests: React.FC = () => {
       .then(() => {
         toastSuccess("Request approval status updated successfully!");
         refetch(); // Refresh the data after update
+        setShowArchived(showArchived);
       })
       .catch((e: Error) => {
         console.error("Failed to update approval status:", e);
@@ -68,8 +69,25 @@ export const Requests: React.FC = () => {
 
   return (
     <>
-      <div className="container mx-auto p-4" style={{ height: "100vh", overflowY: "auto" }}>
+      <div
+        className="container mx-auto p-4"
+        style={{ height: "100vh", overflowY: "auto" }}
+      >
         <ToastContainer />
+        <Button
+          onClick={() => setShowArchived(!showArchived)}
+          className="mb-4"
+          variant="contained"
+          color={showArchived ? "primary" : undefined}
+        >
+          {showArchived && "Show Archived"}
+          {!showArchived && "Hide Archived"}
+        </Button>
+        <SearchBar
+          label="Search Requests"
+          searchTerm={searchTerm}
+          handleSearchChange={handleSearchChange}
+        />
         <Typography variant="h3" className="mb-4">
           User Requests
         </Typography>
