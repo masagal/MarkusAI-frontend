@@ -6,7 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import RequestsForm from "../Components/RequestsForm";
 import SearchBar from "../Components/SearchBar";
 import { Request } from "../utils/types";
-import { Typography, Button } from "@mui/material";
+import { Typography, Button, Grid } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import TableView from "../Components/TableView";
@@ -70,24 +70,29 @@ export const Requests: React.FC = () => {
     <>
       <div className="container mx-auto p-4" style={{ height: "100vh", overflowY: "auto" }}>
         <ToastContainer />
-        <Button
-          onClick={() => setShowArchived(!showArchived)}
-          className="mb-4"
-          variant="contained"
-          color="primary"
-        >
-          Toggle Show Archived
-        </Button>
-        <SearchBar
-          label="Search Requests"
-          searchTerm={searchTerm}
-          handleSearchChange={handleSearchChange}
-        />
         <Typography variant="h3" className="mb-4">
           User Requests
         </Typography>
+        <Grid container spacing={2} alignItems="center">
+          <Grid item xs={9}>
+            <SearchBar
+              label="Search Requests"
+              searchTerm={searchTerm}
+              handleSearchChange={handleSearchChange}
+            />
+          </Grid>
+          <Grid item xs={3} style={{ textAlign: "right", display: "flex", alignItems: "center", marginTop: '-15px' }}>
+            <Button
+              onClick={() => setShowArchived(!showArchived)}
+              variant="contained"
+              color="primary"
+            >
+              Show Archive
+            </Button>
+          </Grid>
+        </Grid>
         {filteredRequests?.length === 0 ? (
-          <Typography variant="body1">No requests at the moment.</Typography>
+          <Typography variant="body1" className="mt-4">No requests at the moment.</Typography>
         ) : (
           <>
             {isMobile ? (
