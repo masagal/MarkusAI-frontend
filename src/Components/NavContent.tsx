@@ -11,8 +11,7 @@ import InfoIcon from "@mui/icons-material/Info";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import NoteAddIcon from "@mui/icons-material/NoteAdd";
 import { ChatGptIcon } from "../IconComponents/ChatGptIcon";
-import { useNavigate } from "@tanstack/react-router";
-import IsAdmin from "./IsAdmin";
+import { useLocation, useNavigate } from "@tanstack/react-router";
 import { useUserData } from "../ApiQueries/useUserData";
 import { useState } from "react";
 
@@ -28,6 +27,8 @@ export const NavContent = () => {
   const navigate = useNavigate();
   const { data: userData } = useUserData();
   const [showAll, setShowAll] = useState(false);
+  const { pathname } = useLocation();
+  console.log("pathname is", pathname);
 
   if (userData) {
     if (userData.isAdmin && !showAll) {
@@ -43,6 +44,7 @@ export const NavContent = () => {
         .map((value, index) => (
           <ListItem key={index}>
             <ListItemButton
+              selected={pathname === value.link}
               onClick={() => {
                 navigate({ to: `/${value.link}` });
               }}
@@ -51,11 +53,9 @@ export const NavContent = () => {
                 {index === 0 && <HomeIcon />}
                 {index === 1 && <ChatGptIcon />}
                 {index === 2 && <NoteAddIcon />}
-                <IsAdmin>
-                  {index === 3 && <InventoryIcon />}
-                  {index === 4 && <LocalShippingIcon />}
-                  {index === 5 && <InfoIcon />}
-                </IsAdmin>
+                {index === 3 && <InventoryIcon />}
+                {index === 4 && <LocalShippingIcon />}
+                {index === 5 && <InfoIcon />}
               </ListItemIcon>
               <ListItemText primary={value.text} />
             </ListItemButton>
