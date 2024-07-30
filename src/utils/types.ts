@@ -21,6 +21,12 @@ export type SingleProduct = {
   name: string;
 };
 
+export type MutationProduct = {
+  product: SingleProduct;
+  productName: string;
+  quantity: number;
+};
+
 export type InventoryItem = {
   id: string;
   product: SingleProduct;

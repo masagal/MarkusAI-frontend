@@ -1,5 +1,5 @@
 import { useState } from "react";
-import useUserData from "../ApiQueries/useUserData";
+import { useUserData } from "../ApiQueries/useUserData";
 import IsAdmin from "../Components/IsAdmin";
 import {
   Typography,
