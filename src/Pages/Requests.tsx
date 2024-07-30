@@ -7,11 +7,17 @@ import "react-toastify/dist/ReactToastify.css";
 import RequestsForm from "../Components/RequestsForm";
 import { useState } from "react";
 import IsAdmin from "../Components/IsAdmin";
+import SearchBar from "../Components/SearchBar";
 
 export const Requests: React.FC = () => {
   const { data: requests, error, isLoading, refetch } = useRequests();
   const approveRequests = useApproveRequests();
   const [showArchived, setShowArchived] = useState<boolean>(false);
+  const [searchTerm, setSearchTerm] = useState<string>(""); // State for the search term
+
+  const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
+  };
 
   const toggleApproval = async (id: number, isApproved: boolean) =>
     approveRequests(id, isApproved)
@@ -35,6 +41,18 @@ export const Requests: React.FC = () => {
 
   console.log("Fetched requests:", requests); // Log the fetched data
 
+  // Filter requests based on the search term
+  const filteredRequests = requests?.filter((request) => {
+    const userName = request.user?.name.toLowerCase() || "";
+    const products = request.products.map((product) =>
+      product.product?.name.toLowerCase() || ""
+    );
+    return (
+      userName.includes(searchTerm.toLowerCase()) ||
+      products.some((product) => product.includes(searchTerm.toLowerCase()))
+    );
+  });
+
   return (
     <>
       <div className="container mx-auto p-4">
@@ -45,8 +63,9 @@ export const Requests: React.FC = () => {
         >
           Toggle Show Archived
         </button>
+        <SearchBar searchTerm={searchTerm} handleSearchChange={handleSearchChange} /> {/* Add SearchBar */}
         <h1 className="text-3xl font-bold mb-4">User Requests</h1>
-        {requests?.length === 0 ? (
+        {filteredRequests?.length === 0 ? (
           <p>No requests at the moment.</p>
         ) : (
           <div className="overflow-x-auto">
@@ -62,7 +81,7 @@ export const Requests: React.FC = () => {
                 </tr>
               </thead>
               <tbody>
-                {requests
+                {filteredRequests
                   ?.filter((request) => showArchived || !request.approved)
                   .map((request) => (
                     <tr key={request.id} className="hover:bg-gray-100">
