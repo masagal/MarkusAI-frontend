@@ -38,7 +38,7 @@ export const Profile = () => {
   if (error) return <p>Error</p>;
 
   return (
-    <>
+    <div>
       <Typography
         variant="h3"
         className="mb-8 text-slate-600 pb-8 pt-5"
@@ -100,6 +100,6 @@ export const Profile = () => {
           </Typography>
         </Stack>
       </Stack>
-    </>
+    </div>
   );
 };
