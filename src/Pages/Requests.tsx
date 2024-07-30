@@ -1,11 +1,10 @@
-import React from "react";
+import React, { useState, ChangeEvent } from "react";
 import { useRequests, useApproveRequests } from "../ApiQueries/useRequests";
 import { FaCheck, FaTimes } from "react-icons/fa";
 import { ToastContainer } from "react-toastify";
 import { toastError, toastSuccess } from "../Components/toastUtils";
 import "react-toastify/dist/ReactToastify.css";
 import RequestsForm from "../Components/RequestsForm";
-import { useState } from "react";
 import IsAdmin from "../Components/IsAdmin";
 import SearchBar from "../Components/SearchBar";
 
