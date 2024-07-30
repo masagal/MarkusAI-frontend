@@ -1,6 +1,6 @@
 import { useAuth } from "@clerk/clerk-react";
 import { GetToken } from "@clerk/types";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useMutation } from "@tanstack/react-query";
 import { getUserData } from "./useUserData";
 import axios from "axios";
@@ -33,11 +33,31 @@ const useRequests = () => {
 };
 
 const useApproveRequests = () => {
+  const auth = useAuth();
+  const url = `${apiHost}${requestsEndpoint}`;
+  const client = useQueryClient();
+
   return (requestId: number, approve: boolean) => {
-    return axios.patch(`${apiHost}/requests`, {
-      requestId,
-      approve,
-    });
+    return auth
+      .getToken()
+      .then((token) => {
+        console.log("Approving.");
+        const body = { requestId, approve };
+        const headers = new Headers();
+        headers.append("Content-Type", "application/json");
+        headers.append("Authorization", `Bearer ${token}`);
+        return fetch(url, {
+          body: JSON.stringify(body),
+          method: "PATCH",
+          headers,
+        });
+      })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("approval was unsuccessful");
+        }
+        client.invalidateQueries({ queryKey: ["requests"] });
+      });
   };
 };
 
