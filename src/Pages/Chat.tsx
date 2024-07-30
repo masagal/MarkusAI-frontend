@@ -59,7 +59,7 @@ export const Chat = () => {
             <Stack
               direction="row"
               spacing={2}
-              className="w-full p-4 bg-white rounded shadow-md"
+              className="w-full p-4 bg-white rounded shadow-md items-center"
             >
               <div className="grow">
                 <form.Field
@@ -78,7 +78,7 @@ export const Chat = () => {
                   )}
                 />
               </div>
-              <Button className="self-end" type="submit" variant="contained" color="primary">
+              <Button type="submit" variant="contained" color="primary">
                 Send
               </Button>
             </Stack>
