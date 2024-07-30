@@ -87,7 +87,7 @@ export const Requests: React.FC = () => {
               variant="contained"
               color="primary"
             >
-              Toggle Show Archived
+              Show Archive
             </Button>
           </Grid>
         </Grid>

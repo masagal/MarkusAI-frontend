@@ -27,7 +27,7 @@ const CardView: React.FC<CardViewProps> = ({ requests, toggleApproval, showArchi
                 </Typography>
                 <Typography variant="body1" className="mb-2">
                   Products:
-                  <ul>
+                  <ul className="list-none p-0 m-0">
                     {request.products.map((product) => (
                       <li key={product.id}>
                         {product.product?.name || "Unknown"} (Quantity: {product.quantity})
