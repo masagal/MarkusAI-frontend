@@ -1,6 +1,8 @@
 export type Product = {
   name: string;
   quantity: number;
+  location: string;
+  imageUrl: string;
 };
 
 export type UserData = {
