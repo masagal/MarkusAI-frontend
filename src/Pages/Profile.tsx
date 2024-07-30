@@ -26,7 +26,7 @@ export const Profile = () => {
   if (error) return <p>Error</p>;
 
   return (
-    <div className="h-screen">
+    <div>
       <Typography
         variant="h3"
         className="mb-8 text-slate-600 pb-8 pt-5"
