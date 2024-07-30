@@ -43,7 +43,7 @@ const CardView: React.FC<CardViewProps> = ({ requests, toggleApproval, showArchi
                         color="primary"
                         sx={{
                           border: "3px solid",
-                          borderRadius: "4px",
+                          borderRadius: "14px",
                           padding: "8px 16px",
                           minWidth: "64px"
                         }}
