@@ -1,19 +1,23 @@
+import { useEffect, useRef } from 'react';
 import { useForm } from "@tanstack/react-form";
 import { Typography, Button, TextField, Stack } from "@mui/material";
 import ChatBubble from "../Components/ChatBubble";
 import useWebSocketChat from "../ApiQueries/useWebSocketChat";
 import { Message } from "../utils/types";
+import { SkeletonLoading } from "../Components/SkeletonLoading";
 
 const developmentChats: Message[] = [
   {
     sender: "MarkusAI",
     sentAt: "0",
-    contents: "Hey! Hope you are well. Let me know if you need any new whiteboard markers.",
+    contents:
+      "Hey! Hope you are well. Let me know if you need any new whiteboard markers.",
   },
 ];
 
 export const Chat = () => {
-  const { messages, pendingMessage, connectionEstablished, sendMessage } = useWebSocketChat(developmentChats);
+  const { messages, pendingMessage, connectionEstablished, sendMessage } =
+    useWebSocketChat(developmentChats);
 
   const form = useForm({
     defaultValues: { chatInput: "" },
@@ -23,18 +27,41 @@ export const Chat = () => {
     },
   });
 
+
+  const chatContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
+  }, [messages, pendingMessage]);
+
+  if (!connectionEstablished) {
+    return (
+      <>
+        <Typography variant="h3" className="mb-8 text-slate-600">
+          Chat
+        </Typography>
+        <SkeletonLoading />
+      </>
+    );
+  }
+
+
   return (
-    <div className="max-w-5xl flex flex-col max-h-fit p-4">
-      <Typography variant="h3" className="mb-8 text-slate-600">
+    <div className="max-w-full flex flex-col max-h-full p-2 sm:p-4 mx-auto mr-4">
+      <Typography variant="h3" className="mb-8 text-slate-600 pt-4">
         Chat
       </Typography>
-      <div className="flex flex-col w-full overflow-scroll grow p-4 bg-gray-100 rounded">
-        {messages.map((message, index) => (
-          <ChatBubble key={index} msg={message} pending={false} />
-        ))}
-        {pendingMessage && (
-          <ChatBubble msg={{ sender: "MarkusAI", sentAt: "0", contents: "" }} pending={true} />
-        )}
+      <div className="flex flex-col w-full overflow-hidden grow p-4 bg-gray-100 rounded">
+        <div className="flex flex-col w-full overflow-auto h-96" ref={chatContainerRef}>
+          {messages.map((message, index) => (
+            <ChatBubble key={index} msg={message} pending={false} />
+          ))}
+          {pendingMessage && (
+            <ChatBubble msg={{ sender: "MarkusAI", sentAt: "0", contents: "" }} pending={true} />
+          )}
+        </div>
       </div>
       <div className="mt-4">
         {connectionEstablished ? (
@@ -48,7 +75,7 @@ export const Chat = () => {
             <Stack
               direction="row"
               spacing={2}
-              className="w-full p-4 bg-white rounded shadow-md"
+              className="w-full p-4 bg-white rounded shadow-md items-center"
             >
               <div className="grow">
                 <form.Field
@@ -62,12 +89,12 @@ export const Chat = () => {
                       onChange={(e) => field.handleChange(e.target.value)}
                       className="w-full"
                       variant="outlined"
-                      placeholder="Type your message..."
+                      placeholder="Aa"
                     />
                   )}
                 />
               </div>
-              <Button className="self-end" type="submit" variant="contained" color="primary">
+              <Button type="submit" variant="contained" color="primary">
                 Send
               </Button>
             </Stack>

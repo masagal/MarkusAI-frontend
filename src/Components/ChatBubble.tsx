@@ -1,5 +1,6 @@
 import { Typography, Skeleton } from "@mui/material";
 import { Message } from "../utils/types";
+import Markdown from "react-markdown";
 
 const ChatBubble = ({ msg, pending }: { msg: Message; pending: boolean }) => {
   const { sender, sentAt, contents } = msg;
@@ -20,7 +21,7 @@ const ChatBubble = ({ msg, pending }: { msg: Message; pending: boolean }) => {
           <Skeleton variant="rectangular" width={210} height={50} />
         ) : (
           <Typography variant="body1" key={key}>
-            {contents}
+            <Markdown>{contents}</Markdown>
           </Typography>
         )}
       </div>
