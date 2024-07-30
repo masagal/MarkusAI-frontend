@@ -6,11 +6,12 @@ export const InventoryCard = ({ product }: { product: Product }) => {
     <Card className="inventoryCard" sx={{ width: 300 }}>
       <CardMedia
         sx={{ height: 140 }}
-        image="src/assets/placeholder.png"
+        image={product.imageUrl ?? "src/assets/placeholder.png"}
       ></CardMedia>
       <CardContent>
         <p>Product name: {product.name}</p>
         <p>Quantity: {product.quantity}</p>
+        <p>Location: {product.location}</p>
       </CardContent>
     </Card>
   );
