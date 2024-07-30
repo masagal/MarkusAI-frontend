@@ -13,7 +13,7 @@ const route = createRootRoute({
   component: NavBar,
   notFoundComponent: () => {
     return (
-      <Typography variant="h3" className="mb-8 text-slate-600 h-screen">
+      <Typography variant="h3" className="mb-8 text-slate-600">
         Page not found!
       </Typography>
     );
