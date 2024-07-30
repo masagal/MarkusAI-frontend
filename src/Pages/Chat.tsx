@@ -3,17 +3,20 @@ import { Typography, Button, TextField, Stack } from "@mui/material";
 import ChatBubble from "../Components/ChatBubble";
 import useWebSocketChat from "../ApiQueries/useWebSocketChat";
 import { Message } from "../utils/types";
+import { SkeletonLoading } from "../Components/SkeletonLoading";
 
 const developmentChats: Message[] = [
   {
     sender: "MarkusAI",
     sentAt: "0",
-    contents: "Hey! Hope you are well. Let me know if you need any new whiteboard markers.",
+    contents:
+      "Hey! Hope you are well. Let me know if you need any new whiteboard markers.",
   },
 ];
 
 export const Chat = () => {
-  const { messages, pendingMessage, connectionEstablished, sendMessage } = useWebSocketChat(developmentChats);
+  const { messages, pendingMessage, connectionEstablished, sendMessage } =
+    useWebSocketChat(developmentChats);
 
   const form = useForm({
     defaultValues: { chatInput: "" },
@@ -22,6 +25,17 @@ export const Chat = () => {
       form.reset();
     },
   });
+
+  if (!connectionEstablished) {
+    return (
+      <>
+        <Typography variant="h3" className="mb-8 text-slate-600">
+          Chat
+        </Typography>
+        <SkeletonLoading />
+      </>
+    );
+  }
 
   return (
     <div className="max-w-5xl flex flex-col max-h-fit p-4">
@@ -33,7 +47,10 @@ export const Chat = () => {
           <ChatBubble key={index} msg={message} pending={false} />
         ))}
         {pendingMessage && (
-          <ChatBubble msg={{ sender: "MarkusAI", sentAt: "0", contents: "" }} pending={true} />
+          <ChatBubble
+            msg={{ sender: "MarkusAI", sentAt: "0", contents: "" }}
+            pending={true}
+          />
         )}
       </div>
       <div className="mt-4">
@@ -67,7 +84,12 @@ export const Chat = () => {
                   )}
                 />
               </div>
-              <Button className="self-end" type="submit" variant="contained" color="primary">
+              <Button
+                className="self-end"
+                type="submit"
+                variant="contained"
+                color="primary"
+              >
                 Send
               </Button>
             </Stack>
