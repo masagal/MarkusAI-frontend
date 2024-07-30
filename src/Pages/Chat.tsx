@@ -73,7 +73,7 @@ export const Chat = () => {
                       onChange={(e) => field.handleChange(e.target.value)}
                       className="w-full"
                       variant="outlined"
-                      placeholder="Type your message..."
+                      placeholder="Aa"
                     />
                   )}
                 />
