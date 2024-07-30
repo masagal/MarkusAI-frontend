@@ -1,27 +1,20 @@
 import useProducts from "../ApiQueries/useProducts";
 import { useForm } from "@tanstack/react-form";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { useMutateRequests } from "../ApiQueries/useRequests";
 import { toastSuccess, toastError } from "./toastUtils";
 import { useQueryClient } from "@tanstack/react-query";
-
-type Request = {
-  product: Product;
-  productName: string;
-  quantity: number;
-};
-
-type Product = {
-  id: number;
-  name: string;
-};
+import { MutationProduct } from "../utils/types";
+import { SingleProduct } from "../utils/types";
 
 const RequestsForm = () => {
   const queryClient = useQueryClient();
   const products = useProducts();
   const mutateRequests = useMutateRequests();
 
-  const [requestsInProgress, setRequestsInProgress] = useState<Request[]>([]);
+  const [requestsInProgress, setRequestsInProgress] = useState<
+    MutationProduct[]
+  >([]);
 
   const form = useForm({
     defaultValues: {
@@ -29,16 +22,17 @@ const RequestsForm = () => {
       product: 1,
     },
     onSubmit: async ({ value }) => {
-      const p: Product = products.data.find(
-        (product: Product) => product.id == value.product
+      const p: SingleProduct = products.data.find(
+        (product: SingleProduct) => product.id == value.product
       );
-      const newRequest: Request = {
+      const newRequest: MutationProduct = {
         product: p,
         quantity: value.productQuantity,
         productName: p.name,
       };
-      const updatedRequests = requestsInProgress.concat(newRequest);
-      
+      const updatedRequests: MutationProduct[] =
+        requestsInProgress.concat(newRequest);
+
       // Submit the requests
       mutateRequests.mutateAsync(updatedRequests).then(
         () => {
@@ -89,14 +83,16 @@ const RequestsForm = () => {
                     name={field.name}
                     value={field.state.value}
                     onBlur={field.handleBlur}
-                    onChange={(e) => field.handleChange(e.target.value)}
+                    onChange={(e: ChangeEvent<HTMLSelectElement>) =>
+                      field.handleChange(Number(e.target.value))
+                    }
                     className="w-full p-2 border rounded"
                   >
                     {products.isPending && <option>Loading . . .</option>}
                     {products.isSuccess && (
                       <>
                         {products.data.length != 0 &&
-                          products.data!.map((product) => (
+                          products.data!.map((product: SingleProduct) => (
                             <option key={product.id} value={product.id}>
                               {product.name}
                             </option>
@@ -118,7 +114,9 @@ const RequestsForm = () => {
                     name={field.name}
                     value={field.state.value}
                     onBlur={field.handleBlur}
-                    onChange={(e) => field.handleChange(e.target.value)}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                      field.handleChange(Number(e.target.value))
+                    }
                     type="text"
                     className="w-full p-2 border rounded"
                   />

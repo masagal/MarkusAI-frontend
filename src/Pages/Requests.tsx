@@ -11,6 +11,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import TableView from "../Components/TableView";
 import CardView from "../Components/CardView";
+import { SkeletonLoading } from "../Components/SkeletonLoading";
 
 export const Requests: React.FC = () => {
   const { data: requests, error, isLoading, refetch } = useRequests();
@@ -37,7 +38,14 @@ export const Requests: React.FC = () => {
       });
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <>
+        <Typography variant="h3" className="mb-8 text-slate-600">
+          User Requests
+        </Typography>
+        <SkeletonLoading />
+      </>
+    );
   }
 
   if (error) {
@@ -71,6 +79,7 @@ export const Requests: React.FC = () => {
           Toggle Show Archived
         </Button>
         <SearchBar
+          label="Search Requests"
           searchTerm={searchTerm}
           handleSearchChange={handleSearchChange}
         />

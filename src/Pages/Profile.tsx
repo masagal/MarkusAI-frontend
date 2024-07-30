@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useUserData } from "../ApiQueries/useUserData";
 import IsAdmin from "../Components/IsAdmin";
 import {
@@ -10,19 +9,32 @@ import {
   IconButton,
 } from "@mui/material";
 import { CameraAlt } from "@mui/icons-material";
+import { ProfileLoading } from "../Components/ProfileLoading";
 
 export const Profile = () => {
   const { isPending, error, data: userData } = useUserData();
-  const [selectedImage, setSelectedImage] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const chosenFile = e.target.files;
     if (chosenFile != null) {
-      setSelectedImage(URL.createObjectURL(chosenFile[0]));
+      console.log(URL.createObjectURL(chosenFile[0]));
     }
   };
 
-  if (isPending) return <p>Loading...</p>;
+  if (isPending) {
+    return (
+      <>
+        <Typography
+          variant="h3"
+          className="mb-8 text-slate-600 pb-8 pt-5"
+          align="center"
+        >
+          My Profile
+        </Typography>
+        <ProfileLoading />
+      </>
+    );
+  }
   if (error) return <p>Error</p>;
 
   return (
@@ -60,10 +72,15 @@ export const Profile = () => {
               </IconButton>
             }
           >
-            <Avatar
-              sx={{ width: 200, height: 200 }}
-              src={selectedImage}
-            ></Avatar>
+            {!isPending && !error && userData && (
+              <Avatar
+                sx={{ width: 200, height: 200 }}
+                src={userData.imageUrl}
+              ></Avatar>
+            )}
+            {(isPending || error) && (
+              <Avatar sx={{ width: 200, height: 200 }}></Avatar>
+            )}
           </Badge>
         </div>
         <Stack spacing={4} justifyContent="center">
@@ -79,7 +96,7 @@ export const Profile = () => {
             <strong>Email:</strong> {userData.email}
           </Typography>
           <Typography variant="body1">
-            <strong>Phone:</strong> #phone_number
+            <strong>Phone:</strong> 0708-927 852
           </Typography>
         </Stack>
       </Stack>

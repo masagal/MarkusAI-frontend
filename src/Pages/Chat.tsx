@@ -4,17 +4,20 @@ import { Typography, Button, TextField, Stack } from "@mui/material";
 import ChatBubble from "../Components/ChatBubble";
 import useWebSocketChat from "../ApiQueries/useWebSocketChat";
 import { Message } from "../utils/types";
+import { SkeletonLoading } from "../Components/SkeletonLoading";
 
 const developmentChats: Message[] = [
   {
     sender: "MarkusAI",
     sentAt: "0",
-    contents: "Hey! Hope you are well. Let me know if you need any new whiteboard markers.",
+    contents:
+      "Hey! Hope you are well. Let me know if you need any new whiteboard markers.",
   },
 ];
 
 export const Chat = () => {
-  const { messages, pendingMessage, connectionEstablished, sendMessage } = useWebSocketChat(developmentChats);
+  const { messages, pendingMessage, connectionEstablished, sendMessage } =
+    useWebSocketChat(developmentChats);
 
   const form = useForm({
     defaultValues: { chatInput: "" },
@@ -24,6 +27,7 @@ export const Chat = () => {
     },
   });
 
+
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -31,6 +35,18 @@ export const Chat = () => {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
     }
   }, [messages, pendingMessage]);
+
+  if (!connectionEstablished) {
+    return (
+      <>
+        <Typography variant="h3" className="mb-8 text-slate-600">
+          Chat
+        </Typography>
+        <SkeletonLoading />
+      </>
+    );
+  }
+
 
   return (
     <div className="max-w-full flex flex-col max-h-full p-2 sm:p-4 mx-auto mr-4">
