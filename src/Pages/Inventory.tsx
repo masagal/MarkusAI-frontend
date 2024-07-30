@@ -8,7 +8,7 @@ export const Inventory = () => {
   const { data, isLoading } = useInventoryData();
   const [searchTerm, setSearchTerm] = useState<string>("");
 
-  const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
   };
 
@@ -18,7 +18,10 @@ export const Inventory = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <SearchBar searchTerm={searchTerm} handleSearchChange={handleSearchChange} />
+      <SearchBar
+        searchTerm={searchTerm}
+        handleSearchChange={handleSearchChange}
+      />
       <main className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
         {!isLoading &&
           filteredData &&

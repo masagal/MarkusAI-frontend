@@ -2,9 +2,9 @@ import { useAuth } from "@clerk/clerk-react";
 import { GetToken } from "@clerk/types";
 import { useQuery } from "@tanstack/react-query";
 import { useMutation } from "@tanstack/react-query";
-import useUserData from "./useUserData";
-import { UserData } from "../utils/types";
+import { getUserData } from "./useUserData";
 import axios from "axios";
+import { useNavigate } from "@tanstack/react-router";
 
 const apiHost = import.meta.env.VITE_API_HOST;
 const requestsEndpoint = "/requests";
@@ -40,17 +40,18 @@ const useApproveRequests = () => {
   };
 };
 
-const requestMutationDevelopment = async (mutationData) => {
+const requestMutationDevelopment = async (mutationData: Request[]) => {
   console.log("Mutation is not available in dev mode. Doing nothing.");
   console.log("Mutation data was: ", mutationData);
 };
 
 const requestMutation = async (
   mutationData: Request[],
-  userData: UserData,
-  getToken: () => Promise<string>
+  getToken: GetToken,
+  navigate: ({ to }: { to: string }) => void
 ) => {
   const token = await getToken();
+  const { id: userId } = await getUserData(getToken, navigate);
 
   const headers = new Headers();
   headers.append("Content-Type", "application/json");
@@ -60,7 +61,7 @@ const requestMutation = async (
   const opts = {
     method: "POST",
     headers,
-    body: JSON.stringify({ requests: mutationData, userId: userData.id }),
+    body: JSON.stringify({ requests: mutationData, userId: userId }),
   };
 
   return fetch(url, opts).then(
@@ -70,7 +71,7 @@ const requestMutation = async (
 };
 
 const useMutateRequests = () => {
-  const userData = useUserData();
+  const navigate = useNavigate();
   const auth = useAuth();
 
   const mutationFunction =
@@ -79,7 +80,8 @@ const useMutateRequests = () => {
       : requestMutation;
 
   return useMutation({
-    mutationFn: (data) => mutationFunction(data, userData, auth.getToken),
+    mutationFn: (data: Request[]) =>
+      mutationFunction(data, auth.getToken, navigate),
   });
 };
 

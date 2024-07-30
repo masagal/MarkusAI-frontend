@@ -1,6 +1,5 @@
 import { useAuth } from "@clerk/clerk-react";
 import { useQuery } from "@tanstack/react-query";
-import { useAuth } from "@clerk/clerk-react";
 
 const apiHost = import.meta.env.VITE_API_HOST;
 const productEndpoint = "/product";
