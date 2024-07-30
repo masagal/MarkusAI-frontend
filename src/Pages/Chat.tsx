@@ -33,8 +33,8 @@ export const Chat = () => {
   }, [messages, pendingMessage]);
 
   return (
-    <div className="max-w-5xl flex flex-col max-h-full p-4">
-      <Typography variant="h3" className="mb-8 text-slate-600">
+    <div className="max-w-full flex flex-col max-h-full p-2 sm:p-4 mx-auto mr-4">
+      <Typography variant="h3" className="mb-8 text-slate-600 pt-4">
         Chat
       </Typography>
       <div className="flex flex-col w-full overflow-hidden grow p-4 bg-gray-100 rounded">

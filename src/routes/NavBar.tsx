@@ -1,4 +1,4 @@
-import { Outlet } from "@tanstack/react-router";
+import { Outlet, useLocation } from "@tanstack/react-router";
 import { useState } from "react";
 import {
   AppBar,
@@ -15,11 +15,19 @@ import { Footer } from "../Components/Footer";
 import { SignedOutMenu } from "../Components/SignedOutMenu";
 import { SignedInMenu } from "../Components/SignedInMenu";
 import { NavContent } from "../Components/NavContent";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
 
 const drawerWidth = 300;
 
 export const NavBar = () => {
   const [open, setOpen] = useState(false);
+  const location = useLocation();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  // Check if the current route is the Chat page
+  const isChatPage = location.pathname === "/chat";
 
   return (
     <>
@@ -65,7 +73,12 @@ export const NavBar = () => {
           </Drawer>
         </SignedIn>
 
-        <Box component="main" className="w-full overflow-hidden p-20 h-screen">
+        <Box
+          component="main"
+          className={`w-full overflow-hidden ${
+            isChatPage && isMobile ? "p-2 sm:p-4 mr-8" : "p-4 sm:p-20"
+          } h-screen`}
+        >
           <Toolbar />
           <Outlet />
         </Box>
