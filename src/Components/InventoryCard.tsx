@@ -1,4 +1,4 @@
-import { Card, CardContent, CardMedia } from "@mui/material";
+import { Card, CardContent, CardMedia, Typography } from "@mui/material";
 import { Product } from "../utils/types";
 
 export const InventoryCard = ({ product }: { product: Product }) => {
@@ -9,9 +9,13 @@ export const InventoryCard = ({ product }: { product: Product }) => {
         image={product.imageUrl ?? "src/assets/placeholder.png"}
       ></CardMedia>
       <CardContent>
-        <p>Product name: {product.name}</p>
-        <p>Quantity: {product.quantity}</p>
-        <p>Location: {product.location}</p>
+        <Typography variant="h6">
+          <p>{product.name}</p>
+        </Typography>
+        <Typography>
+          <p>Quantity: {product.quantity}</p>
+          <p>Location: {product.location}</p>
+        </Typography>
       </CardContent>
     </Card>
   );
