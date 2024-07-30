@@ -8,6 +8,7 @@ import RequestsForm from "../Components/RequestsForm";
 import IsAdmin from "../Components/IsAdmin";
 import SearchBar from "../Components/SearchBar";
 import { Request } from "../utils/types";
+import { Typography, Button } from "@mui/material";
 
 export const Requests: React.FC = () => {
   const { data: requests, error, isLoading, refetch } = useRequests();
@@ -56,19 +57,23 @@ export const Requests: React.FC = () => {
     <>
       <div className="container mx-auto p-4">
         <ToastContainer />
-        <button
+        <Button
           onClick={() => setShowArchived(!showArchived)}
-          className="mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700"
+          className="mb-4 px-4 py-2"
+          variant="contained"
+          color="primary"
         >
           Toggle Show Archived
-        </button>
+        </Button>
         <SearchBar
           searchTerm={searchTerm}
           handleSearchChange={handleSearchChange}
         />
-        <h1 className="text-3xl font-bold mb-4">User Requests</h1>
+        <Typography variant="h3" className="mb-4">
+          User Requests
+        </Typography>
         {filteredRequests?.length === 0 ? (
-          <p>No requests at the moment.</p>
+          <Typography variant="body1">No requests at the moment.</Typography>
         ) : (
           <div className="overflow-x-auto">
             <table className="min-w-full bg-white border border-gray-300">
@@ -108,14 +113,16 @@ export const Requests: React.FC = () => {
                       <IsAdmin>
                         <td className="px-4 py-2 border-b text-center">
                           {!request.approved && (
-                            <button
+                            <Button
                               onClick={() =>
                                 toggleApproval(request.id, request.approved)
                               }
-                              className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-900"
+                              variant="contained"
+                              color="primary"
+                              className="px-3 py-1"
                             >
                               {request.approved ? <FaTimes /> : <FaCheck />}
-                            </button>
+                            </Button>
                           )}
                         </td>
                       </IsAdmin>
