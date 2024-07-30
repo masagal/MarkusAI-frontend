@@ -5,6 +5,7 @@ import { useMutation } from "@tanstack/react-query";
 import { getUserData } from "./useUserData";
 import axios from "axios";
 import { useNavigate } from "@tanstack/react-router";
+import { MutationProduct } from "../utils/types";
 
 const apiHost = import.meta.env.VITE_API_HOST;
 const requestsEndpoint = "/requests";
@@ -40,13 +41,13 @@ const useApproveRequests = () => {
   };
 };
 
-const requestMutationDevelopment = async (mutationData: Request[]) => {
+const requestMutationDevelopment = async (mutationData: MutationProduct[]) => {
   console.log("Mutation is not available in dev mode. Doing nothing.");
   console.log("Mutation data was: ", mutationData);
 };
 
 const requestMutation = async (
-  mutationData: Request[],
+  mutationData: MutationProduct[],
   getToken: GetToken,
   navigate: ({ to }: { to: string }) => void
 ) => {
@@ -80,7 +81,7 @@ const useMutateRequests = () => {
       : requestMutation;
 
   return useMutation({
-    mutationFn: (data: Request[]) =>
+    mutationFn: (data: MutationProduct[]) =>
       mutationFunction(data, auth.getToken, navigate),
   });
 };
