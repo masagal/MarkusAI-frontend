@@ -13,7 +13,7 @@ export const Requests: React.FC = () => {
   const { data: requests, error, isLoading, refetch } = useRequests();
   const approveRequests = useApproveRequests();
   const [showArchived, setShowArchived] = useState<boolean>(false);
-  const [searchTerm, setSearchTerm] = useState<string>(""); // State for the search term
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
@@ -41,7 +41,6 @@ export const Requests: React.FC = () => {
 
   console.log("Fetched requests:", requests); // Log the fetched data
 
-  // Filter requests based on the search term
   const filteredRequests = requests?.filter((request) => {
     const userName = request.user?.name.toLowerCase() || "";
     const products = request.products.map((product) =>
@@ -63,7 +62,7 @@ export const Requests: React.FC = () => {
         >
           Toggle Show Archived
         </button>
-        <SearchBar searchTerm={searchTerm} handleSearchChange={handleSearchChange} /> {/* Add SearchBar */}
+        <SearchBar searchTerm={searchTerm} handleSearchChange={handleSearchChange} />
         <h1 className="text-3xl font-bold mb-4">User Requests</h1>
         {filteredRequests?.length === 0 ? (
           <p>No requests at the moment.</p>
@@ -121,5 +120,3 @@ export const Requests: React.FC = () => {
     </>
   );
 };
-
-export default Requests;
