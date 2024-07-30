@@ -24,11 +24,11 @@ export const Chat = () => {
   });
 
   return (
-    <div className="max-w-5xl flex flex-col max-h-fit">
+    <div className="max-w-5xl flex flex-col max-h-fit p-4">
       <Typography variant="h3" className="mb-8 text-slate-600">
         Chat
       </Typography>
-      <div className="basis-3/6 flex flex-col w-full overflow-scroll grow">
+      <div className="flex flex-col w-full overflow-scroll grow p-4 bg-gray-100 rounded">
         {messages.map((message, index) => (
           <ChatBubble key={index} msg={message} pending={false} />
         ))}
@@ -36,7 +36,7 @@ export const Chat = () => {
           <ChatBubble msg={{ sender: "MarkusAI", sentAt: "0", contents: "" }} pending={true} />
         )}
       </div>
-      <div className="basis-10">
+      <div className="mt-4">
         {connectionEstablished ? (
           <form
             onSubmit={(e) => {
@@ -46,9 +46,9 @@ export const Chat = () => {
             }}
           >
             <Stack
-              className="w-full max-w-5xl my-8 bg-white p-10 box-content"
               direction="row"
               spacing={2}
+              className="w-full p-4 bg-white rounded shadow-md"
             >
               <div className="grow">
                 <form.Field
@@ -61,17 +61,19 @@ export const Chat = () => {
                       onBlur={field.handleBlur}
                       onChange={(e) => field.handleChange(e.target.value)}
                       className="w-full"
+                      variant="outlined"
+                      placeholder="Type your message..."
                     />
                   )}
                 />
               </div>
-              <Button className="grow" type="submit" variant="contained">
+              <Button className="self-end" type="submit" variant="contained" color="primary">
                 Send
               </Button>
             </Stack>
           </form>
         ) : (
-          <p>Loading . . .</p>
+          <Typography variant="body1">Loading . . .</Typography>
         )}
       </div>
     </div>

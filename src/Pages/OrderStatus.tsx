@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   Typography,
   List,
@@ -16,6 +15,9 @@ import { toastError, toastSuccess } from "../Components/toastUtils";
 import { useAuth } from "@clerk/clerk-react";
 import { changeOrderStatus } from "../ApiQueries/useOrders";
 import { Order } from "../utils/types";
+import { useState, ChangeEvent } from 'react';
+import SearchBar from '../Components/SearchBar';
+
 
 export const OrderStatus = () => {
   const { data: orders, error, isLoading, refetch } = useOrders();
@@ -23,7 +25,7 @@ export const OrderStatus = () => {
 
   const [searchTerm, setSearchTerm] = useState("");
 
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
   };
 
@@ -80,21 +82,8 @@ export const OrderStatus = () => {
       >
         Order Status
       </Typography>
-      <TextField
-        label="Search Orders"
-        value={searchTerm}
-        onChange={handleSearchChange}
-        fullWidth
-        style={{ marginBottom: "1rem" }}
-      />
-      <Paper
-        elevation={4}
-        style={{
-          padding: "2rem",
-          borderRadius: "12px",
-          backgroundColor: "#ecf0f1",
-        }}
-      >
+      <SearchBar searchTerm={searchTerm} handleSearchChange={handleSearchChange} />
+      <Paper elevation={4} style={{ padding: '2rem', borderRadius: '12px', backgroundColor: '#ecf0f1' }}>
         <List>
           {filteredOrders.map((order: Order) => (
             <ListItem key={order.id} style={{ marginBottom: "1rem" }}>
