@@ -40,12 +40,12 @@ const CardView: React.FC<CardViewProps> = ({ requests, toggleApproval, showArchi
                     <Box display="flex" justifyContent="center" mt={2}>
                       <IconButton
                         onClick={() => toggleApproval(request.id, request.approved)}
-                        color="primary"
                         sx={{
-                          border: "3px solid",
-                          borderRadius: "14px",
-                          padding: "8px 16px",
-                          minWidth: "64px"
+                          backgroundColor: 'primary.main',
+                          color: 'white',
+                          borderRadius: '14px',
+                          padding: '8px 16px',
+                          minWidth: '64px'
                         }}
                       >
                         {request.approved ? <FaTimes /> : <FaCheck />}
