@@ -8,6 +8,7 @@ export type UserData = {
   name: string;
   email: string;
   isAdmin: boolean;
+  imageUrl: string;
 };
 
 export type Message = {
