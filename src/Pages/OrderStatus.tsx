@@ -16,6 +16,7 @@ import { changeOrderStatus } from "../ApiQueries/useOrders";
 import { Order } from "../utils/types";
 import { useState, ChangeEvent } from "react";
 import SearchBar from "../Components/SearchBar";
+import { SkeletonLoading } from "../Components/SkeletonLoading";
 
 export const OrderStatus = () => {
   const { data: orders, error, isLoading, refetch } = useOrders();
@@ -28,7 +29,14 @@ export const OrderStatus = () => {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <>
+        <Typography variant="h3" className="mb-8 text-slate-600">
+          Order Status
+        </Typography>
+        <SkeletonLoading />
+      </>
+    );
   }
 
   if (error) {

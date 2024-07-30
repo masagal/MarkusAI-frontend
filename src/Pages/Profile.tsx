@@ -9,6 +9,7 @@ import {
   IconButton,
 } from "@mui/material";
 import { CameraAlt } from "@mui/icons-material";
+import { ProfileLoading } from "../Components/ProfileLoading";
 
 export const Profile = () => {
   const { isPending, error, data: userData } = useUserData();
@@ -20,7 +21,20 @@ export const Profile = () => {
     }
   };
 
-  if (isPending) return <p>Loading...</p>;
+  if (isPending) {
+    return (
+      <>
+        <Typography
+          variant="h3"
+          className="mb-8 text-slate-600 pb-8 pt-5"
+          align="center"
+        >
+          My Profile
+        </Typography>
+        <ProfileLoading />
+      </>
+    );
+  }
   if (error) return <p>Error</p>;
 
   return (

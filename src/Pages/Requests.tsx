@@ -8,6 +8,8 @@ import RequestsForm from "../Components/RequestsForm";
 import IsAdmin from "../Components/IsAdmin";
 import SearchBar from "../Components/SearchBar";
 import { Request } from "../utils/types";
+import { SkeletonLoading } from "../Components/SkeletonLoading";
+import { Typography } from "@mui/material";
 
 export const Requests: React.FC = () => {
   const { data: requests, error, isLoading, refetch } = useRequests();
@@ -31,7 +33,14 @@ export const Requests: React.FC = () => {
       });
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <>
+        <Typography variant="h3" className="mb-8 text-slate-600">
+          User Requests
+        </Typography>
+        <SkeletonLoading />
+      </>
+    );
   }
 
   if (error) {
