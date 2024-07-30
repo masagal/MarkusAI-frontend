@@ -29,9 +29,8 @@ export const Profile = () => {
     <>
       <Typography
         variant="h3"
-        className="mb-8 text-slate-600"
+        className="mb-8 text-slate-600 pb-8 pt-5"
         align="center"
-        paddingBottom={5}
       >
         My Profile
       </Typography>
