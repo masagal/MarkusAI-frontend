@@ -1,27 +1,29 @@
-import { Typography } from "@mui/material";
+import { Typography, Skeleton } from "@mui/material";
 import { Message } from "../utils/types";
-import { Skeleton } from "@mui/material";
 
 const ChatBubble = ({ msg, pending }: { msg: Message; pending: boolean }) => {
   const { sender, sentAt, contents } = msg;
   const key = `${sender}${sentAt}${contents}`;
-  const isBackend = sender == "MarkusAI";
+  const isBackend = sender === "MarkusAI";
+
   return (
     <div
-      className={`rounded-xl bg-slate-400 p-1 m-1 max-w-prose ${
-        isBackend && "text-right place-self-end"
+      className={`rounded-xl p-4 m-2 max-w-prose shadow-md ${
+        isBackend ? "bg-blue-500 text-right self-end text-white" : "bg-gray-300"
       }`}
     >
-      <Typography>
-        <span className="text-white">{sender}</span>
-        <div className="bg-slate-400 p-4">
-          {pending ? (
-            <Skeleton variant="rectangular" width={210} />
-          ) : (
-            <p key={key}>{contents}</p>
-          )}
-        </div>
+      <Typography variant="body2" className="font-bold mb-2">
+        {sender}
       </Typography>
+      <div>
+        {pending ? (
+          <Skeleton variant="rectangular" width={210} height={50} />
+        ) : (
+          <Typography variant="body1" key={key}>
+            {contents}
+          </Typography>
+        )}
+      </div>
     </div>
   );
 };
