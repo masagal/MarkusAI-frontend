@@ -91,7 +91,7 @@ export const Requests: React.FC = () => {
             style={{
               textAlign: "right",
               paddingRight: isMobile ? "8px" : "0",
-              marginTop: isMobile ? "-15px" : "0",
+              marginTop: isMobile ? "-10px" : "-15px",
               marginRight: isMobile ? "8px" : "0",
             }}
           >
