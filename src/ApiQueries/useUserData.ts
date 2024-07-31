@@ -17,11 +17,14 @@ const getUserData = async (
   headers.append("Authorization", `Bearer ${token}`);
   return fetch(`${apiHost}${meEndpoint}`, {
     headers,
-  }).then((response) => {
-    console.log(response);
-    if (response.ok) return response.json();
-    navigate({ to: "/error/user-not-found" });
-  });
+  })
+    .then((response) => {
+      console.log("get my user data responds:");
+      console.log(response);
+      if (response.ok) return response.json();
+      navigate({ to: "/error/user-not-found" });
+    })
+    .catch(() => Promise.reject());
 };
 
 const getAllUsers = async (getToken: GetToken): Promise<UserData[]> => {
