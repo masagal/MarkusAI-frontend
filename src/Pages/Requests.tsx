@@ -85,18 +85,34 @@ export const Requests: React.FC = () => {
               handleSearchChange={handleSearchChange}
             />
           </Grid>
-          <Grid item xs={3} style={{ textAlign: "right" }}>
+          <Grid
+            item
+            xs={3}
+            style={{
+              textAlign: "right",
+              paddingRight: isMobile ? "8px" : "0",
+              marginTop: isMobile ? "-15px" : "0",
+              marginRight: isMobile ? "8px" : "0",
+            }}
+          >
             <Button
               onClick={() => setShowArchived(!showArchived)}
               variant="contained"
               color="primary"
+              style={{
+                fontSize: isMobile ? "0.75rem" : "1rem",
+                padding: isMobile ? "4px 8px" : "8px 16px",
+                minWidth: isMobile ? "130px" : "auto",
+              }}
             >
               {showArchived ? "Hide Archived" : "Show Archived"}
             </Button>
           </Grid>
         </Grid>
         {filteredRequests?.length === 0 ? (
-          <Typography variant="body1" className="mt-4">No requests at the moment.</Typography>
+          <Typography variant="body1" className="mt-4">
+            No requests at the moment.
+          </Typography>
         ) : (
           <>
             {isMobile ? (
