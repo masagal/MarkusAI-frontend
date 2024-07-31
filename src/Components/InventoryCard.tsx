@@ -5,7 +5,7 @@ import GrainIcon from "@mui/icons-material/Grain";
 
 export const InventoryCard = ({ product }: { product: Product }) => {
   return (
-    <Card className="inventoryCard" sx={{ width: 300 }}>
+    <Card className="w-96">
       <CardMedia
         sx={{ height: 140 }}
         image={product.imageUrl ?? "src/assets/placeholder.png"}

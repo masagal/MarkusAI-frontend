@@ -53,7 +53,7 @@ const RequestsForm = () => {
   }
 
   return (
-    <div className="container mx-auto p-4 mt-8">
+    <div className="container mx-auto mt-8">
       <div className="mb-4">
         {requestsInProgress.length > 0 &&
           requestsInProgress.map((req) => (
@@ -103,7 +103,7 @@ const RequestsForm = () => {
                 )}
               />
             </div>
-            <div className="w-1/2">
+            <div className="w-fit">
               <label className="block mb-2 font-bold" htmlFor="productQuantity">
                 Quantity
               </label>
@@ -118,7 +118,7 @@ const RequestsForm = () => {
                       field.handleChange(Number(e.target.value))
                     }
                     type="text"
-                    className="w-full p-2 border rounded"
+                    className="p-2 border rounded"
                   />
                 )}
               />
