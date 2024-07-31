@@ -14,6 +14,9 @@ import { getAllUsers } from "../ApiQueries/useUserData";
 import { useAuth } from "@clerk/clerk-react";
 import { UserData } from "../utils/types";
 
+const apiHost = import.meta.env.VITE_API_HOST;
+const inviteEndpoint = "/invite?token=";
+
 export const Users = () => {
   const { getToken } = useAuth();
   const [user, setUser] = useState("");
@@ -74,24 +77,55 @@ export const Users = () => {
           </Button>
         </div>
       </div>
-      <ul className="list-none p-0">
-        {listUsers.map((user) => (
-          <li
-            key={user.id}
-            className="flex justify-between items-center p-2 mb-2 bg-gray-100 rounded cursor-pointer hover:bg-gray-200"
-          >
-            <Typography variant="body1" className="mb-8">
-              {user.name}
-            </Typography>
-            <Typography variant="body1" className="mb-8">
-              {user.email}
-            </Typography>
-            <Typography variant="body1" className="mb-8">
-              {user.invitationToken}
-            </Typography>
-          </li>
-        ))}
-      </ul>
+      <Typography variant="h5" className="mb-8 pt-5 font-bold text-[#2c3e50]">
+        All Users:
+      </Typography>
+
+      <div className="overflow-x-auto text-nowrap sm:text-wrap">
+        <table className="sm:inline-table flex flex-row w-full">
+          <thead>
+            {listUsers.length != 0 &&
+              listUsers.map((user, index) => (
+                <tr
+                  className={`bg-[#5eb1ef]/[50%] flex flex-col sm:table-row mb-6 ${
+                    index == 0 ? "sm:flex" : "sm:hidden"
+                  }`}
+                  key={index}
+                >
+                  <th className="py-3 px-5 text-left">User ID</th>
+                  <th className="py-3 px-5 text-left">Name</th>
+                  <th className="py-3 px-5 text-left">Email</th>
+                  <th className="py-3 px-5 text-left">Account</th>
+                  <th className="py-3 px-5 text-left">Invitation</th>
+                </tr>
+              ))}
+          </thead>
+          <tbody>
+            {listUsers.length != 0 &&
+              listUsers.map((user, index) => (
+                <tr className="flex flex-col sm:table-row mb-6" key={index}>
+                  <td className="hover:bg-[#222E3A]/[6%] py-3 px-5 sm:text-center">
+                    {user.id}
+                  </td>
+                  <td className="hover:bg-[#222E3A]/[6%] py-3 px-5">
+                    {user.name}
+                  </td>
+                  <td className="hover:bg-[#222E3A]/[6%] py-3 px-5">
+                    {user.email}
+                  </td>
+                  <td className="hover:bg-[#222E3A]/[6%] py-3 px-5">
+                    {user.isAdmin ? "Admin" : "User"}
+                  </td>
+                  <td className="hover:bg-[#222E3A]/[6%] py-3 px-5">
+                    {user.invitationToken
+                      ? apiHost + inviteEndpoint + user.invitationToken
+                      : "Claimed account"}
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+      </div>
     </>
   );
 };
