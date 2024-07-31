@@ -3,11 +3,11 @@ name: Azure Static Web Apps CI/CD
 on:
   push:
     branches:
-      - azure-host-dev
+      - main
   pull_request:
     types: [opened, synchronize, reopened, closed]
     branches:
-      - azure-host-dev
+      - main
 
 env:
   VITE_CLERK_PUBLISHABLE_KEY: ${{ secrets.VITE_CLERK_PUBLISHABLE_KEY }}
