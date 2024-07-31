@@ -31,16 +31,16 @@ export const Inventory = () => {
 
   return (
     <>
-      <Typography variant="h3" className="mb-8 text-slate-600">
+      <Typography variant="h3" className="mb-8 font-bold text-[#2c3e50]">
         Inventory
       </Typography>
-      <div className="container mx-auto p-4">
+      <div className="container mx-auto">
         <SearchBar
           label="Search Inventory"
           searchTerm={searchTerm}
           handleSearchChange={handleSearchChange}
         />
-        <main className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+        <main className="flex flex-wrap gap-10 justify-center">
           {!isLoading &&
             filteredData &&
             filteredData.length !== 0 &&
