@@ -5,6 +5,8 @@ import ChatBubble from "../Components/ChatBubble";
 import useWebSocketChat from "../ApiQueries/useWebSocketChat";
 import { Message } from "../utils/types";
 import { SkeletonLoading } from "../Components/SkeletonLoading";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
 
 const developmentChats: Message[] = [
   {
@@ -27,6 +29,8 @@ export const Chat = () => {
     },
   });
 
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
@@ -47,9 +51,8 @@ export const Chat = () => {
     );
   }
 
-
   return (
-    <div className="max-w-full flex flex-col max-h-full p-2 sm:p-4 mx-auto mr-4">
+    <div className={`max-w-full flex flex-col max-h-full p-2 sm:p-4 mx-auto ${isMobile ? 'mr-8' : 'mr-6'}`}>
       <Typography variant="h3" className="mb-8 text-slate-600 pt-4">
         Chat
       </Typography>
