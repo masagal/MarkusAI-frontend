@@ -6,6 +6,7 @@ import { toastSuccess, toastError } from "./toastUtils";
 import { useQueryClient } from "@tanstack/react-query";
 import { MutationProduct } from "../utils/types";
 import { SingleProduct } from "../utils/types";
+import { Typography, Button } from "@mui/material";
 
 const RequestsForm = () => {
   const queryClient = useQueryClient();
@@ -73,9 +74,9 @@ const RequestsForm = () => {
         >
           <div className="flex mb-4 space-x-4">
             <div className="w-1/2">
-              <label className="block mb-2 font-bold" htmlFor="product">
+              <Typography variant="body1" className="block mb-2 font-bold">
                 Product
-              </label>
+              </Typography>
               <form.Field
                 name="product"
                 children={(field) => (
@@ -104,9 +105,9 @@ const RequestsForm = () => {
               />
             </div>
             <div className="w-fit">
-              <label className="block mb-2 font-bold" htmlFor="productQuantity">
+              <Typography variant="body1" className="block mb-2 font-bold">
                 Quantity
-              </label>
+              </Typography>
               <form.Field
                 name="productQuantity"
                 children={(field) => (
@@ -124,12 +125,14 @@ const RequestsForm = () => {
               />
             </div>
           </div>
-          <button
+          <Button
+            variant="contained"
+            color="primary"
             type="submit"
-            className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-700"
+            className="w-full py-2 rounded"
           >
-            Submit Request
-          </button>
+            <Typography variant="body1">Submit Request </Typography>
+          </Button>
         </form>
       </div>
     </div>
