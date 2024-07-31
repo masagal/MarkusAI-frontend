@@ -1,7 +1,7 @@
 import { SignInButton, SignedOut, SignedIn } from "@clerk/clerk-react";
 import { useAuth } from "@clerk/clerk-react";
 import { useInvitation } from "../ApiQueries/useUserData";
-import { Navigate, useNavigate, useSearch } from "@tanstack/react-router";
+import { Navigate, useSearch } from "@tanstack/react-router";
 import { CircularProgress, Typography } from "@mui/material";
 
 const ResolveInvitation = () => {
