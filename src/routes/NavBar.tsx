@@ -15,11 +15,13 @@ import { Footer } from "../Components/Footer";
 import { SignedOutMenu } from "../Components/SignedOutMenu";
 import { SignedInMenu } from "../Components/SignedInMenu";
 import { NavContent } from "../Components/NavContent";
+import { useNavigate } from "@tanstack/react-router";
 
 const drawerWidth = 300;
 
 export const NavBar = () => {
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <>
@@ -35,8 +37,17 @@ export const NavBar = () => {
                 <MenuIcon style={{ color: "#fff" }} />
               </IconButton>
             </SignedIn>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              <img src={logo} className="max-h-12 my-4" />
+            <Typography
+              variant="h6"
+              component="div"
+              sx={{ flexGrow: 1 }}
+              className="cursor-pointer"
+            >
+              <img
+                src={logo}
+                className="max-h-12 my-4"
+                onClick={() => navigate({ to: "/" })}
+              />
             </Typography>
 
             <SignedOut>

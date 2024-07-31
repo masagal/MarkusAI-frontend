@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from "react";
 import { useForm } from "@tanstack/react-form";
 import { Typography, Button, TextField, Stack } from "@mui/material";
 import ChatBubble from "../Components/ChatBubble";
@@ -36,14 +36,15 @@ export const Chat = () => {
 
   useEffect(() => {
     if (chatContainerRef.current) {
-      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+      chatContainerRef.current.scrollTop =
+        chatContainerRef.current.scrollHeight;
     }
   }, [messages, pendingMessage]);
 
   if (!connectionEstablished) {
     return (
       <>
-        <Typography variant="h3" className="mb-8 text-slate-600">
+        <Typography variant="h3" className="mb-8 text-slate-600 font-bold">
           Chat
         </Typography>
         <SkeletonLoading />
@@ -52,17 +53,23 @@ export const Chat = () => {
   }
 
   return (
-    <div className={`max-w-full flex flex-col max-h-full p-2 sm:p-4 mx-auto ${isMobile ? 'mr-8' : 'mr-6'}`}>
-      <Typography variant="h3" className="mb-8 text-slate-600 pt-4">
+    <div className={`flex flex-col ${isMobile ? "mr-8" : "mr-6"}`}>
+      <Typography variant="h3" className="mb-8 font-bold text-[#2c3e50]">
         Chat
       </Typography>
       <div className="flex flex-col w-full overflow-hidden grow p-4 bg-gray-100 rounded">
-        <div className="flex flex-col w-full overflow-auto h-96" ref={chatContainerRef}>
+        <div
+          className="flex flex-col w-full overflow-auto h-96"
+          ref={chatContainerRef}
+        >
           {messages.map((message, index) => (
             <ChatBubble key={index} msg={message} pending={false} />
           ))}
           {pendingMessage && (
-            <ChatBubble msg={{ sender: "MarkusAI", sentAt: "0", contents: "" }} pending={true} />
+            <ChatBubble
+              msg={{ sender: "MarkusAI", sentAt: "0", contents: "" }}
+              pending={true}
+            />
           )}
         </div>
       </div>
