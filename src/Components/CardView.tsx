@@ -10,6 +10,8 @@ import {
 } from "@mui/material";
 import IsAdmin from "../Components/IsAdmin";
 import { Request } from "../utils/types";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
 
 interface CardViewProps {
   requests: Request[];
@@ -22,8 +24,11 @@ const CardView: React.FC<CardViewProps> = ({
   toggleApproval,
   showArchived,
 }) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={2} style={{ paddingRight: isMobile ? "25px" : "0" }}>
       {requests
         .filter((request: Request) => showArchived || !request.approved)
         .map((request: Request) => (
