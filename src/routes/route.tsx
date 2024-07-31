@@ -6,6 +6,7 @@ import { OrderStatus } from "../Pages/OrderStatus";
 import { Profile } from "../Pages/Profile";
 import { Chat } from "../Pages/Chat";
 import { NavBar } from "./NavBar";
+import { Users } from "../Pages/users";
 import UserNotFoundError from "../Pages/UserNotFoundError";
 import { Typography } from "@mui/material";
 import ResolveInvitation from "../Pages/ResolveInvitation";
@@ -65,6 +66,12 @@ const resolveInvitation = createRoute({
   component: ResolveInvitation,
 });
 
+const users = createRoute({
+  getParentRoute: () => route,
+  path: "/users",
+  component: Users,
+});
+
 export const routeTree = route.addChildren({
   home,
   inventory,
@@ -74,4 +81,5 @@ export const routeTree = route.addChildren({
   chat,
   errorUserNotFound,
   resolveInvitation,
+  users
 });

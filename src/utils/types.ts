@@ -11,6 +11,8 @@ export type UserData = {
   email: string;
   isAdmin: boolean;
   imageUrl: string;
+  clerkId?: string;
+  invitationToken?: string;
 };
 
 export type NewUserData = {

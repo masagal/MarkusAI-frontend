@@ -38,13 +38,13 @@ const getAllUsers = async (getToken: GetToken): Promise<UserData[]> => {
       throw new Error("failed to fetch user data");
     }
     return response.json();
-  });
+  }).then(data => {console.log(data);return data});
 };
 
 const createUser = async (
   getToken: GetToken,
   newUser: NewUserData
-): Promise<void> => {
+): Promise<UserData> => {
   const token = await getToken();
 
   const url = `${apiHost}${usersEndpoint}`;
@@ -56,12 +56,17 @@ const createUser = async (
     method: "POST",
     body: JSON.stringify(newUser),
     headers,
-  }).then((response) => {
-    if (!response.ok) {
-      throw new Error("failed to create new user");
-    }
-    return Promise.resolve();
-  });
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("failed to create new user");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log(data);
+      return data;
+    });
 };
 
 const useUsers = () => {
