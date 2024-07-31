@@ -74,24 +74,10 @@ export const Requests: React.FC = () => {
         style={{ height: "100vh", overflowY: "auto" }}
       >
         <ToastContainer />
-        <Button
-          onClick={() => setShowArchived(!showArchived)}
-          className="mb-4"
-          variant="contained"
-          color={showArchived ? "primary" : undefined}
-        >
-          {showArchived && "Show Archived"}
-          {!showArchived && "Hide Archived"}
-        </Button>
-        <SearchBar
-          label="Search Requests"
-          searchTerm={searchTerm}
-          handleSearchChange={handleSearchChange}
-        />
         <Typography variant="h3" className="mb-4">
           User Requests
         </Typography>
-        <Grid container spacing={2} alignItems="center">
+        <Grid container spacing={2} alignItems="center" className="mb-4">
           <Grid item xs={9}>
             <SearchBar
               label="Search Requests"
@@ -99,13 +85,13 @@ export const Requests: React.FC = () => {
               handleSearchChange={handleSearchChange}
             />
           </Grid>
-          <Grid item xs={3} style={{ textAlign: "right", display: "flex", alignItems: "center", marginTop: '-15px' }}>
+          <Grid item xs={3} style={{ textAlign: "right" }}>
             <Button
               onClick={() => setShowArchived(!showArchived)}
               variant="contained"
               color="primary"
             >
-              Show Archive
+              {showArchived ? "Hide Archived" : "Show Archived"}
             </Button>
           </Grid>
         </Grid>
