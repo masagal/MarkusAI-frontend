@@ -8,6 +8,7 @@ import { Chat } from "../Pages/Chat";
 import { NavBar } from "./NavBar";
 import UserNotFoundError from "../Pages/UserNotFoundError";
 import { Typography } from "@mui/material";
+import ResolveInvitation from "../Pages/ResolveInvitation";
 
 const route = createRootRoute({
   component: NavBar,
@@ -58,6 +59,12 @@ const errorUserNotFound = createRoute({
   component: UserNotFoundError,
 });
 
+const resolveInvitation = createRoute({
+  getParentRoute: () => route,
+  path: "/invite",
+  component: ResolveInvitation,
+});
+
 export const routeTree = route.addChildren({
   home,
   inventory,
@@ -66,4 +73,5 @@ export const routeTree = route.addChildren({
   profile,
   chat,
   errorUserNotFound,
+  resolveInvitation,
 });

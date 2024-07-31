@@ -86,6 +86,29 @@ const useMutateUsers = () => {
   });
 };
 
+const resolveInvitation = async (getToken: GetToken, inviteToken: string) => {
+  const token = await getToken();
+
+  const url = `${apiHost}${usersEndpoint}/resolve-invitation?token=${inviteToken}`;
+  const headers = new Headers();
+  headers.append("Authorization", `Bearer ${token}`);
+  return fetch(url, { headers }).then((response) => {
+    if (!response.ok) {
+      throw new Error("could not resolve invite.");
+    }
+    Promise.resolve();
+  });
+};
+
+const useInvitation = () => {
+  const { getToken } = useAuth();
+
+  return useMutation({
+    mutationFn: (inviteToken: string) =>
+      resolveInvitation(getToken, inviteToken),
+  });
+};
+
 export {
   useMyUserData as useUserData,
   getUserData,
@@ -93,4 +116,5 @@ export {
   getAllUsers,
   useMutateUsers,
   createUser,
+  useInvitation,
 };
