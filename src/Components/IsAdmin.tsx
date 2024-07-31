@@ -1,5 +1,5 @@
 import { ReactNode } from "@tanstack/react-router";
-import useUserData from "../ApiQueries/useUserData";
+import { useUserData } from "../ApiQueries/useUserData";
 
 const IsAdmin = ({ children }: { children: ReactNode }) => {
   const { isPending, error, data: userData } = useUserData();

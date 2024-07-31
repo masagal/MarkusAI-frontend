@@ -1,19 +1,54 @@
 import { InventoryCard } from "../Components/InventoryCard";
 import useInventoryData from "../ApiQueries/useInventory";
 import { Product } from "../utils/types";
+import SearchBar from "../Components/SearchBar";
+import { useState } from "react";
+import { Typography } from "@mui/material";
+import { InventoryLoading } from "../Components/InventoryLoading";
 
 export const Inventory = () => {
   const { data, isLoading } = useInventoryData();
-  console.log(data);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
+  };
+
+  if (isLoading) {
+    return (
+      <>
+        <Typography variant="h3" className="mb-8 text-slate-600">
+          Inventory
+        </Typography>
+        <InventoryLoading />
+      </>
+    );
+  }
+
+  const filteredData = data?.filter((product: Product) =>
+    product.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
-    <main className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-      {!isLoading &&
-        data &&
-        data.length != 0 &&
-        data.map((value: Product, index: number) => (
-          <InventoryCard key={index} product={value} />
-        ))}
-    </main>
+    <>
+      <Typography variant="h3" className="mb-8 font-bold text-[#2c3e50]">
+        Inventory
+      </Typography>
+      <div className="container mx-auto">
+        <SearchBar
+          label="Search Inventory"
+          searchTerm={searchTerm}
+          handleSearchChange={handleSearchChange}
+        />
+        <main className="flex flex-wrap gap-10 justify-center">
+          {!isLoading &&
+            filteredData &&
+            filteredData.length !== 0 &&
+            filteredData.map((value: Product, index: number) => (
+              <InventoryCard key={index} product={value} />
+            ))}
+        </main>
+      </div>
+    </>
   );
 };

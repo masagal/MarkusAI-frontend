@@ -17,12 +17,15 @@ describe("a logged in admin", () => {
   });
 
   it("can make a request", () => {
-    cy.visit(`/requests`);
+    cy.visit(`/`);
     cy.clerkLoaded();
     cy.clerkSignIn({
       strategy: "email_code",
       identifier: testUser,
     });
+    cy.visit(`/requests`);
+
+    cy.wait(1000);
 
     cy.get("form").contains("Submit").click();
 

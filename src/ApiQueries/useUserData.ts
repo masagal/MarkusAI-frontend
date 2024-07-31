@@ -1,31 +1,35 @@
 import { useAuth } from "@clerk/clerk-react";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
+import { GetToken } from "@clerk/types";
 import { UserData } from "../utils/types";
 
-const useUserData = () => {
-  const navigate = useNavigate();
-  const auth = useAuth();
-  return useQuery({
-    queryKey: ["userid"],
-    queryFn: () => {
-      return auth
-        .getToken()
-        .then((token) => {
-          console.log(token);
-          const headers = new Headers();
-          headers.append("Authorization", `Bearer ${token}`);
-          return fetch("http://localhost:8080/api/users/me", {
-            headers,
-          });
-        })
-        .then((response) => {
-          console.log(response);
-          if (response.ok) return response.json();
-          navigate({ to: "/error/user-not-found" });
-        });
-    },
+const apiHost = import.meta.env.VITE_API_HOST;
+const meEndpoint = "/api/users/me";
+
+const getUserData = async (
+  getToken: GetToken,
+  navigate: ({ to }: { to: string }) => void
+): Promise<UserData> => {
+  const token = await getToken();
+  const headers = new Headers();
+  headers.append("Authorization", `Bearer ${token}`);
+  return fetch(`${apiHost}${meEndpoint}`, {
+    headers,
+  }).then((response) => {
+    console.log(response);
+    if (response.ok) return response.json();
+    navigate({ to: "/error/user-not-found" });
   });
 };
 
-export default useUserData;
+const useUserData = () => {
+  const navigate = useNavigate();
+  const { getToken } = useAuth();
+  return useQuery({
+    queryKey: ["userid"],
+    queryFn: () => getUserData(getToken, navigate),
+  });
+};
+
+export { useUserData, getUserData };

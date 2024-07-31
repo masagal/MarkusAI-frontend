@@ -1,5 +1,6 @@
 import { useAuth } from "@clerk/clerk-react";
 import { useQuery } from "@tanstack/react-query";
+import { GetToken } from "@clerk/types";
 
 const apiHost = import.meta.env.VITE_API_HOST;
 const inventoryEndpoint = "/inventory";
@@ -17,7 +18,7 @@ const inventoryQueriesDevelopment = {
 };
 
 const inventoryQueries = {
-  getInventory: async (getToken) => {
+  getInventory: async (getToken: GetToken) => {
     const token = await getToken();
     const url = `${apiHost}${inventoryEndpoint}`;
     const headers = new Headers();
