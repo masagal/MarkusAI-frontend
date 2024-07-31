@@ -1,10 +1,11 @@
 import { useAuth } from "@clerk/clerk-react";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import { GetToken } from "@clerk/types";
-import { UserData } from "../utils/types";
+import { UserData, NewUserData } from "../utils/types";
 
 const apiHost = import.meta.env.VITE_API_HOST;
+const usersEndpoint = "/api/users";
 const meEndpoint = "/api/users/me";
 
 const getUserData = async (
@@ -23,7 +24,52 @@ const getUserData = async (
   });
 };
 
-const useUserData = () => {
+const getAllUsers = async (getToken: GetToken): Promise<UserData[]> => {
+  const token = await getToken();
+
+  const url = `${apiHost}${usersEndpoint}`;
+  const headers = new Headers();
+  headers.append("Authorization", `Bearer ${token}`);
+  return fetch(url, { headers }).then((response) => {
+    if (!response.ok) {
+      throw new Error("failed to fetch user data");
+    }
+    return response.json();
+  });
+};
+
+const createUser = async (
+  getToken: GetToken,
+  newUser: NewUserData
+): Promise<void> => {
+  const token = await getToken();
+
+  const url = `${apiHost}${usersEndpoint}`;
+  const headers = new Headers();
+  headers.append("Content-Type", "application/json");
+  headers.append("Authorization", `Bearer ${token}`);
+
+  return fetch(url, {
+    method: "POST",
+    body: JSON.stringify(newUser),
+    headers,
+  }).then((response) => {
+    if (!response.ok) {
+      throw new Error("failed to create new user");
+    }
+    return Promise.resolve();
+  });
+};
+
+const useUsers = () => {
+  const { getToken } = useAuth();
+  return useQuery({
+    queryKey: ["users"],
+    queryFn: () => getAllUsers(getToken),
+  });
+};
+
+const useMyUserData = () => {
   const navigate = useNavigate();
   const { getToken } = useAuth();
   return useQuery({
@@ -32,4 +78,19 @@ const useUserData = () => {
   });
 };
 
-export { useUserData, getUserData };
+const useMutateUsers = () => {
+  const { getToken } = useAuth();
+
+  return useMutation({
+    mutationFn: (data: NewUserData) => createUser(getToken, data),
+  });
+};
+
+export {
+  useMyUserData as useUserData,
+  getUserData,
+  useUsers,
+  getAllUsers,
+  useMutateUsers,
+  createUser,
+};

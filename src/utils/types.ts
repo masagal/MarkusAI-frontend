@@ -13,6 +13,12 @@ export type UserData = {
   imageUrl: string;
 };
 
+export type NewUserData = {
+  name: string;
+  email: string;
+  isAdmin: boolean;
+};
+
 export type Message = {
   sender: string;
   sentAt: string;
