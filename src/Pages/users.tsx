@@ -13,8 +13,8 @@ import { useMutateUsers } from "../ApiQueries/useUserData";
 import { getAllUsers } from "../ApiQueries/useUserData";
 import { useAuth } from "@clerk/clerk-react";
 import { UserData } from "../utils/types";
-
-const apiHost = import.meta.env.VITE_API_HOST;
+import SearchBar from "../Components/SearchBar";
+const apiHost = import.meta.env.MODE=="development"?"localhost:5173":"https://markusai.tolpuddle.tech";
 const inviteEndpoint = "/invite?token=";
 
 export const Users = () => {
@@ -25,15 +25,29 @@ export const Users = () => {
   const [newUserIsUser, setNewUserIsUser] = useState(false);
   const addUser = useMutateUsers();
   const [listUsers, setListUsers] = useState<UserData[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+
   const postNewUser = () => {
     console.log(user);
     console.log(email);
     console.log(newUserIsAdmin);
     addUser.mutate({ name: user, email: email, isAdmin: newUserIsAdmin });
   };
+
   useEffect(() => {
     getAllUsers(getToken).then(setListUsers);
-  }, []);
+  }, [getToken]);
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const filteredUsers = listUsers.filter(
+    (user) =>
+      user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.email.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <>
       <div className="mb-4 flex flex-col gap-5">
@@ -77,32 +91,31 @@ export const Users = () => {
           </Button>
         </div>
       </div>
+
+      <SearchBar
+        label="Search Users"
+        searchTerm={searchTerm}
+        handleSearchChange={handleSearchChange}
+      />
+
       <Typography variant="h5" className="mb-8 pt-5 font-bold text-[#2c3e50]">
         All Users:
       </Typography>
 
       <div className="overflow-x-auto text-nowrap sm:text-wrap">
-        <table className="sm:inline-table flex flex-row w-full">
-          <thead>
-            {listUsers.length != 0 &&
-              listUsers.map((user, index) => (
-                <tr
-                  className={`bg-[#5eb1ef]/[50%] flex flex-col sm:table-row mb-6 ${
-                    index == 0 ? "sm:flex" : "sm:hidden"
-                  }`}
-                  key={index}
-                >
-                  <th className="py-3 px-5 text-left">User ID</th>
-                  <th className="py-3 px-5 text-left">Name</th>
-                  <th className="py-3 px-5 text-left">Email</th>
-                  <th className="py-3 px-5 text-left">Account</th>
-                  <th className="py-3 px-5 text-left">Invitation</th>
-                </tr>
-              ))}
-          </thead>
-          <tbody>
-            {listUsers.length != 0 &&
-              listUsers.map((user, index) => (
+        <Typography>
+          <table className="sm:inline-table flex flex-row w-full">
+            <thead>
+              <tr className="bg-primary flex flex-col sm:table-row mb-6">
+                <th className="py-3 px-5 text-left">User ID</th>
+                <th className="py-3 px-5 text-left">Name</th>
+                <th className="py-3 px-5 text-left">Email</th>
+                <th className="py-3 px-5 text-left">Account</th>
+                <th className="py-3 px-5 text-left">Invitation</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredUsers.map((user, index) => (
                 <tr className="flex flex-col sm:table-row mb-6" key={index}>
                   <td className="hover:bg-[#222E3A]/[6%] py-3 px-5 sm:text-center">
                     {user.id}
@@ -123,8 +136,9 @@ export const Users = () => {
                   </td>
                 </tr>
               ))}
-          </tbody>
-        </table>
+            </tbody>
+          </table>
+        </Typography>
       </div>
     </>
   );
