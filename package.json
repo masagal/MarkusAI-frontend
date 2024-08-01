@@ -36,6 +36,7 @@
     "@tanstack/eslint-plugin-query": "^5.51.12",
     "@types/jest": "^29.5.12",
     "@types/react": "^18.2.66",
+    "@types/react-copy-to-clipboard": "^5.0.7",
     "@types/react-dom": "^18.2.22",
     "@typescript-eslint/eslint-plugin": "^7.2.0",
     "@typescript-eslint/parser": "^7.2.0",

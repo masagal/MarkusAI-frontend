@@ -9,10 +9,8 @@ import {
   Typography,
   Skeleton,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useMutateUsers } from "../ApiQueries/useUserData";
-import { getAllUsers } from "../ApiQueries/useUserData";
-import { useAuth } from "@clerk/clerk-react";
 import { useUsers } from "../ApiQueries/useUserData";
 import { UserData } from "../utils/types";
 import SearchBar from "../Components/SearchBar";
@@ -165,11 +163,7 @@ export const Users = () => {
                         </CopyToClipboard>
                       </Button>
                     ) : (
-                      <Button
-                        variant="contained"
-                        disabled="true"
-                        color="primary"
-                      >
+                      <Button variant="contained" disabled color="primary">
                         <span>Confirmed</span>
                       </Button>
                     )}
