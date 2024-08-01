@@ -15,11 +15,13 @@ import { Footer } from "../Components/Footer";
 import { SignedOutMenu } from "../Components/SignedOutMenu";
 import { SignedInMenu } from "../Components/SignedInMenu";
 import { NavContent } from "../Components/NavContent";
+import { useUserData } from "../ApiQueries/useUserData";
 import { useNavigate } from "@tanstack/react-router";
 
 const drawerWidth = 300;
 
 export const NavBar = () => {
+  const { isPending, error } = useUserData();
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -29,13 +31,17 @@ export const NavBar = () => {
         <AppBar position="fixed" sx={{ zIndex: 1201 }}>
           <Toolbar>
             <SignedIn>
-              <IconButton
-                id="burger_menu"
-                onClick={() => setOpen(true)}
-                className="lg:hidden"
-              >
-                <MenuIcon style={{ color: "#fff" }} />
-              </IconButton>
+              {!isPending && !error && (
+                <>
+                  <IconButton
+                    id="burger_menu"
+                    onClick={() => setOpen(true)}
+                    className="lg:hidden"
+                  >
+                    <MenuIcon style={{ color: "#fff" }} />
+                  </IconButton>
+                </>
+              )}
             </SignedIn>
             <Typography
               variant="h6"

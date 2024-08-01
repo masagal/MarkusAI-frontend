@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import InventoryIcon from "@mui/icons-material/Inventory";
-import InfoIcon from "@mui/icons-material/Info";
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import NoteAddIcon from "@mui/icons-material/NoteAdd";
 import { ChatGptIcon } from "../IconComponents/ChatGptIcon";
@@ -21,6 +21,7 @@ const signedInLinks = [
   { text: "My Requests", link: "/requests", showToNonAdmins: true },
   { text: "Inventory", link: "/inventory", showToNonAdmins: false },
   { text: "Order Status", link: "/order-status", showToNonAdmins: false },
+  { text: "Users", link: "/users", showToNonAdmins: false }
 ];
 
 export const NavContent = () => {
@@ -55,7 +56,7 @@ export const NavContent = () => {
                 {index === 2 && <NoteAddIcon />}
                 {index === 3 && <InventoryIcon />}
                 {index === 4 && <LocalShippingIcon />}
-                {index === 5 && <InfoIcon />}
+                {index === 5 && <PeopleAltIcon/>}
               </ListItemIcon>
               <ListItemText primary={value.text} />
             </ListItemButton>
