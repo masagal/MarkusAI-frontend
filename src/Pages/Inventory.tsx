@@ -34,21 +34,19 @@ export const Inventory = () => {
       <Typography variant="h3" className="mb-8 font-bold text-[#2c3e50]">
         Inventory
       </Typography>
-      <div className="container mx-auto">
-        <SearchBar
-          label="Search Inventory"
-          searchTerm={searchTerm}
-          handleSearchChange={handleSearchChange}
-        />
-        <main className="flex flex-wrap gap-10 justify-center">
-          {!isLoading &&
-            filteredData &&
-            filteredData.length !== 0 &&
-            filteredData.map((value: Product, index: number) => (
-              <InventoryCard key={index} product={value} />
-            ))}
-        </main>
-      </div>
+      <SearchBar
+        label="Search Inventory"
+        searchTerm={searchTerm}
+        handleSearchChange={handleSearchChange}
+      />
+      <main className="flex flex-wrap pt-10 gap-y-10 justify-center md:justify-between">
+        {!isLoading &&
+          filteredData &&
+          filteredData.length !== 0 &&
+          filteredData.map((value: Product, index: number) => (
+            <InventoryCard key={index} product={value} />
+          ))}
+      </main>
     </>
   );
 };

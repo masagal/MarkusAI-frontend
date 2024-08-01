@@ -69,12 +69,9 @@ export const Requests: React.FC = () => {
 
   return (
     <>
-      <div
-        className="container mx-auto p-4"
-        style={{ height: "100vh", overflowY: "auto" }}
-      >
+      <div className="container mx-auto" style={{ overflowY: "auto" }}>
         <ToastContainer />
-        <Typography variant="h3" className="mb-4">
+        <Typography variant="h3" className="mb-8 font-bold text-[#2c3e50]">
           User Requests
         </Typography>
         <Grid container spacing={2} alignItems="center" className="mb-4">
