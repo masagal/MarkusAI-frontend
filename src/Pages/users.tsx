@@ -7,24 +7,30 @@ import {
   FormControl,
   FormLabel,
   Typography,
+  Skeleton,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useMutateUsers } from "../ApiQueries/useUserData";
 import { getAllUsers } from "../ApiQueries/useUserData";
 import { useAuth } from "@clerk/clerk-react";
+import { useUsers } from "../ApiQueries/useUserData";
 import { UserData } from "../utils/types";
 import SearchBar from "../Components/SearchBar";
-const apiHost = import.meta.env.MODE=="development"?"localhost:5173":"https://markusai.tolpuddle.tech";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+
+const apiHost =
+  import.meta.env.MODE == "development"
+    ? "localhost:5173"
+    : "https://markusai.tolpuddle.tech";
 const inviteEndpoint = "/invite?token=";
 
 export const Users = () => {
-  const { getToken } = useAuth();
+  const users = useUsers();
   const [user, setUser] = useState("");
   const [email, setEmail] = useState("");
   const [newUserIsAdmin, setNewUserIsAdmin] = useState(false);
   const [newUserIsUser, setNewUserIsUser] = useState(false);
   const addUser = useMutateUsers();
-  const [listUsers, setListUsers] = useState<UserData[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
 
   const postNewUser = () => {
@@ -34,19 +40,18 @@ export const Users = () => {
     addUser.mutate({ name: user, email: email, isAdmin: newUserIsAdmin });
   };
 
-  useEffect(() => {
-    getAllUsers(getToken).then(setListUsers);
-  }, [getToken]);
-
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
   };
 
-  const filteredUsers = listUsers.filter(
-    (user) =>
-      user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.email.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  let filteredUsers: UserData[] = [];
+  if (users.data) {
+    filteredUsers = users.data!.filter(
+      (user) =>
+        user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        user.email.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }
 
   return (
     <>
@@ -115,6 +120,27 @@ export const Users = () => {
               </tr>
             </thead>
             <tbody>
+              {users.isPending && (
+                <>
+                  <tr>
+                    <td>
+                      <Skeleton variant="rectangular" width="100" />
+                    </td>
+                    <td>
+                      <Skeleton variant="rectangular" width="100" />
+                    </td>
+                    <td>
+                      <Skeleton variant="rectangular" width="100" />
+                    </td>
+                    <td>
+                      <Skeleton variant="rectangular" width="100" />
+                    </td>
+                    <td>
+                      <Skeleton variant="rectangular" width="100" />
+                    </td>
+                  </tr>
+                </>
+              )}
               {filteredUsers.map((user, index) => (
                 <tr className="flex flex-col sm:table-row mb-6" key={index}>
                   <td className="hover:bg-[#222E3A]/[6%] py-3 px-5 sm:text-center">
@@ -130,9 +156,23 @@ export const Users = () => {
                     {user.isAdmin ? "Admin" : "User"}
                   </td>
                   <td className="hover:bg-[#222E3A]/[6%] py-3 px-5">
-                    {user.invitationToken
-                      ? apiHost + inviteEndpoint + user.invitationToken
-                      : "Claimed account"}
+                    {user.invitationToken ? (
+                      <Button variant="contained" color="primary">
+                        <CopyToClipboard
+                          text={`${apiHost}${inviteEndpoint}${user.invitationToken}`}
+                        >
+                          <span>Copy Invitation</span>
+                        </CopyToClipboard>
+                      </Button>
+                    ) : (
+                      <Button
+                        variant="contained"
+                        disabled="true"
+                        color="primary"
+                      >
+                        <span>Confirmed</span>
+                      </Button>
+                    )}
                   </td>
                 </tr>
               ))}

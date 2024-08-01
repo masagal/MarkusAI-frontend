@@ -1,5 +1,5 @@
 import { useAuth } from "@clerk/clerk-react";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import { GetToken } from "@clerk/types";
 import { UserData, NewUserData } from "../utils/types";
@@ -33,12 +33,17 @@ const getAllUsers = async (getToken: GetToken): Promise<UserData[]> => {
   const url = `${apiHost}${usersEndpoint}`;
   const headers = new Headers();
   headers.append("Authorization", `Bearer ${token}`);
-  return fetch(url, { headers }).then((response) => {
-    if (!response.ok) {
-      throw new Error("failed to fetch user data");
-    }
-    return response.json();
-  }).then(data => {console.log(data);return data});
+  return fetch(url, { headers })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("failed to fetch user data");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log(data);
+      return data;
+    });
 };
 
 const createUser = async (
@@ -88,9 +93,11 @@ const useMyUserData = () => {
 
 const useMutateUsers = () => {
   const { getToken } = useAuth();
+  const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: (data: NewUserData) => createUser(getToken, data),
+    onSettled: () => queryClient.invalidateQueries({ queryKey: ["users"] }),
   });
 };
 

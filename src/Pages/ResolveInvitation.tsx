@@ -2,7 +2,7 @@ import { SignInButton, SignedOut, SignedIn } from "@clerk/clerk-react";
 import { useAuth } from "@clerk/clerk-react";
 import { useInvitation } from "../ApiQueries/useUserData";
 import { Navigate, useSearch } from "@tanstack/react-router";
-import { CircularProgress, Typography } from "@mui/material";
+import { CircularProgress, Typography, Button } from "@mui/material";
 
 const ResolveInvitation = () => {
   const auth = useAuth();
@@ -24,11 +24,17 @@ const ResolveInvitation = () => {
     );
   }
   return (
-    <>
-      <Typography>
+    <div className="text-center mx-auto">
+      <Typography variant="h5">
         <SignedOut>
-          <p>Please sign in to resolve this invite.</p>
-          <SignInButton>Sign in</SignInButton>
+          <p>Welcome to the marker revolution.</p>
+          <p>Please sign in to continue.</p>
+
+          <SignInButton>
+            <Button variant="contained" color="primary">
+              Sign in
+            </Button>
+          </SignInButton>
         </SignedOut>
         <SignedIn>
           {inviteMutation.isPending && (
@@ -45,7 +51,7 @@ const ResolveInvitation = () => {
           )}
         </SignedIn>
       </Typography>
-    </>
+    </div>
   );
 };
 
